@@ -2,72 +2,79 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap');
+
 @layer base {
   :root {
-    --background: 36 33% 97%;
-    --foreground: 220 20% 14%;
+    --background: 38 35% 96%;
+    --foreground: 225 25% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 14%;
+    --card: 40 30% 99%;
+    --card-foreground: 225 25% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 14%;
+    --popover: 40 30% 99%;
+    --popover-foreground: 225 25% 12%;
 
-    --primary: 220 20% 14%;
-    --primary-foreground: 36 33% 97%;
+    --primary: 225 25% 12%;
+    --primary-foreground: 38 35% 96%;
 
-    --secondary: 36 20% 93%;
-    --secondary-foreground: 220 20% 14%;
+    --secondary: 38 22% 92%;
+    --secondary-foreground: 225 25% 12%;
 
-    --muted: 36 15% 93%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 38 18% 91%;
+    --muted-foreground: 225 12% 48%;
 
-    --accent: 36 20% 90%;
-    --accent-foreground: 220 20% 14%;
+    --accent: 38 22% 88%;
+    --accent-foreground: 225 25% 12%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 36 15% 88%;
-    --input: 36 15% 88%;
-    --ring: 220 20% 14%;
-    --radius: 0.75rem;
+    --border: 38 18% 86%;
+    --input: 38 18% 86%;
+    --ring: 225 25% 12%;
+    --radius: 1rem;
 
-    /* Module colours */
-    --recovery: 142 60% 40%;
-    --recovery-light: 142 50% 94%;
-    --health: 210 70% 50%;
-    --health-light: 210 60% 94%;
-    --content: 28 90% 55%;
-    --content-light: 28 70% 94%;
-    --adp: 270 50% 55%;
-    --adp-light: 270 40% 94%;
-    --faith: 40 85% 55%;
-    --faith-light: 40 70% 94%;
-    --family: 340 65% 60%;
-    --family-light: 340 55% 94%;
-    --mail: 200 75% 55%;
-    --mail-light: 200 60% 94%;
-    --debt: 230 60% 55%;
-    --debt-light: 230 50% 94%;
+    /* Module colours — richer, warmer */
+    --recovery: 150 55% 38%;
+    --recovery-light: 150 45% 94%;
+    --health: 215 65% 48%;
+    --health-light: 215 55% 94%;
+    --content: 25 85% 52%;
+    --content-light: 25 65% 94%;
+    --adp: 275 45% 52%;
+    --adp-light: 275 35% 94%;
+    --faith: 42 80% 50%;
+    --faith-light: 42 65% 94%;
+    --family: 345 60% 56%;
+    --family-light: 345 50% 94%;
+    --mail: 200 70% 50%;
+    --mail-light: 200 55% 94%;
+    --debt: 235 55% 52%;
+    --debt-light: 235 45% 94%;
 
     /* Priority colours */
-    --priority-critical: 0 84% 55%;
-    --priority-high: 28 90% 55%;
-    --priority-medium: 210 70% 50%;
-    --priority-low: 142 40% 50%;
+    --priority-critical: 0 72% 52%;
+    --priority-high: 25 85% 52%;
+    --priority-medium: 215 65% 48%;
+    --priority-low: 150 40% 48%;
 
     /* Momentum */
-    --momentum: 142 60% 45%;
+    --momentum: 150 55% 42%;
 
-    --sidebar-background: 36 20% 95%;
-    --sidebar-foreground: 220 20% 14%;
-    --sidebar-primary: 220 20% 14%;
-    --sidebar-primary-foreground: 36 33% 97%;
-    --sidebar-accent: 36 20% 90%;
-    --sidebar-accent-foreground: 220 20% 14%;
-    --sidebar-border: 36 15% 88%;
-    --sidebar-ring: 220 20% 14%;
+    /* Warm gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(38 35% 96%), hsl(42 30% 92%));
+    --gradient-recovery: linear-gradient(135deg, hsl(150 55% 38% / 0.08), hsl(150 45% 94%));
+    --gradient-card: linear-gradient(180deg, hsl(40 30% 99%), hsl(38 22% 97%));
+
+    --sidebar-background: 38 25% 95%;
+    --sidebar-foreground: 225 25% 12%;
+    --sidebar-primary: 225 25% 12%;
+    --sidebar-primary-foreground: 38 35% 96%;
+    --sidebar-accent: 38 22% 88%;
+    --sidebar-accent-foreground: 225 25% 12%;
+    --sidebar-border: 38 18% 86%;
+    --sidebar-ring: 225 25% 12%;
   }
 }
 
@@ -77,7 +84,11 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  h1, h2, h3 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    letter-spacing: -0.01em;
   }
 }
 
@@ -111,5 +122,21 @@
 
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .card-warm {
+    background: var(--gradient-card);
+    border-color: hsl(var(--border));
+  }
+
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .streak-ring {
+    background: conic-gradient(
+      hsl(var(--recovery)) var(--streak-pct, 75%),
+      hsl(var(--muted)) var(--streak-pct, 75%)
+    );
   }
 }
