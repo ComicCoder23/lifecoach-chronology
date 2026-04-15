@@ -1,22 +1,23 @@
-import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Shield, Heart } from 'lucide-react';
+import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Shield, Heart, Utensils } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const navItems = [
   { path: '/', icon: Home, label: 'Dashboard' },
   { path: '/launch', icon: Rocket, label: 'Launch Mode' },
   { path: '/disciplines', icon: CheckSquare, label: 'Disciplines' },
+  { path: '/adp-vault', icon: Shield, label: 'ADP Evidence Vault' },
+  { path: '/calendar', icon: Calendar, label: 'Calendar & Diary' },
   { path: '/timeline', icon: Clock, label: 'Timeline' },
   { path: '/capture', icon: Zap, label: 'Quick Capture' },
-  { path: '/calendar', icon: Calendar, label: 'Calendar' },
-  { path: '/evidence', icon: Shield, label: 'Evidence' },
+  { path: '/evidence', icon: FileText, label: 'Evidence Log' },
   { path: '/promises', icon: Heart, label: 'Promises' },
   { path: '/family', icon: Users, label: 'Family' },
-  { path: '/meals', icon: BookOpen, label: 'Meals' },
-  { path: '/debt', icon: CreditCard, label: 'Debt' },
-  { path: '/mail', icon: Mail, label: 'Post/Mail' },
+  { path: '/meals', icon: Utensils, label: 'Meals & SW Coach' },
+  { path: '/debt', icon: CreditCard, label: 'Debt & Credit' },
+  { path: '/mail', icon: Mail, label: 'Post & Mail' },
   { path: '/admin', icon: FileText, label: 'Life Admin' },
   { path: '/wrap', icon: BookOpen, label: 'Wrap Book' },
-  { path: '/weekly', icon: TrendingUp, label: 'Weekly Report' },
+  { path: '/weekly', icon: TrendingUp, label: 'Weekly Evolution' },
 ];
 
 export function DesktopSidebar() {

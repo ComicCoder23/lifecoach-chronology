@@ -1,13 +1,12 @@
-import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, MoreHorizontal } from 'lucide-react';
+import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, Shield, MoreHorizontal } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const tabs = [
   { path: '/', icon: Home, label: 'Home' },
   { path: '/launch', icon: Rocket, label: 'Launch' },
-  { path: '/disciplines', icon: CheckSquare, label: 'Habits' },
-  { path: '/timeline', icon: Clock, label: 'Timeline' },
+  { path: '/adp-vault', icon: Shield, label: 'ADP Vault' },
+  { path: '/calendar', icon: Calendar, label: 'Diary' },
   { path: '/capture', icon: Zap, label: 'Capture' },
-  { path: '/calendar', icon: Calendar, label: 'Calendar' },
   { path: '/family', icon: Users, label: 'Family' },
   { path: '/more', icon: MoreHorizontal, label: 'More' },
 ];

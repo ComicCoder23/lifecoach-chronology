@@ -1,23 +1,25 @@
-import { Rocket, CheckSquare, Clock, Zap, Calendar, Shield, Heart, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp } from 'lucide-react';
+import { Rocket, Shield, Heart, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Utensils, CheckSquare, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const moreItems = [
-  { path: '/evidence', icon: Shield, label: 'ADP Evidence', color: 'module-adp' },
+  { path: '/disciplines', icon: CheckSquare, label: 'Disciplines', color: 'module-recovery' },
+  { path: '/timeline', icon: Clock, label: 'Timeline', color: '' },
+  { path: '/evidence', icon: FileText, label: 'Evidence Log', color: 'module-adp' },
   { path: '/promises', icon: Heart, label: 'Promises', color: 'module-family' },
-  { path: '/meals', icon: BookOpen, label: 'Meals', color: 'module-health' },
-  { path: '/debt', icon: CreditCard, label: 'Debt & Credit', color: 'module-debt' },
-  { path: '/mail', icon: Mail, label: 'Post & Mail', color: 'module-mail' },
+  { path: '/meals', icon: Utensils, label: 'Meals & SW Coach', color: 'module-health' },
+  { path: '/debt', icon: CreditCard, label: 'Debt & Credit Builder', color: 'module-debt' },
+  { path: '/mail', icon: Mail, label: 'Post & Mail Triage', color: 'module-mail' },
   { path: '/admin', icon: FileText, label: 'Life Admin', color: '' },
   { path: '/wrap', icon: BookOpen, label: 'Wrap Book', color: 'module-faith' },
-  { path: '/weekly', icon: TrendingUp, label: 'Weekly Report', color: '' },
+  { path: '/weekly', icon: TrendingUp, label: 'Weekly Evolution', color: '' },
 ];
 
 export default function MoreMenu() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
+    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
       <h1 className="text-xl font-bold">More</h1>
       <div className="space-y-1">
         {moreItems.map((item, i) => (
