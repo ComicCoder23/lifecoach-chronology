@@ -86,7 +86,11 @@ export interface FamilyContact {
   relationship: string;
   lastContact?: string;
   nextReminder?: string;
+  birthday?: string;
+  contactCadence?: string;
+  visitCadence?: string;
   notes: string[];
+  smartPrompts?: string[];
 }
 
 export const MODULE_LABELS: Record<ModuleType, string> = {

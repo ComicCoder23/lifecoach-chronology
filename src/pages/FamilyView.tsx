@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion';
-import { Users, Phone, MessageCircle } from 'lucide-react';
+import { Users, Phone, MessageCircle, Gift, Calendar, Sparkles } from 'lucide-react';
 import { familyContacts, promises } from '@/data/demoData';
 
 export default function FamilyView() {
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
+    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
       <div className="flex items-center gap-2">
         <Users className="w-5 h-5 module-family" />
         <h1 className="text-xl font-bold">Family</h1>
       </div>
-      <p className="text-sm text-muted-foreground">Stay connected. Follow through.</p>
+      <p className="text-sm text-muted-foreground">Stay connected. Follow through. Show up.</p>
 
       <div className="space-y-3">
         {familyContacts.map((fc, i) => {
@@ -36,12 +36,35 @@ export default function FamilyView() {
                   </button>
                 </div>
               </div>
-              <div className="text-xs text-muted-foreground space-y-0.5">
+
+              {/* Cadence + contact info */}
+              <div className="text-xs text-muted-foreground space-y-0.5 mb-2">
                 {fc.lastContact && <p>Last contact: {fc.lastContact}</p>}
-                {fc.nextReminder && <p>Next reminder: {fc.nextReminder}</p>}
+                {fc.contactCadence && <p>📱 Contact: {fc.contactCadence}</p>}
+                {fc.visitCadence && <p>🏠 Visits: {fc.visitCadence}</p>}
+                {fc.birthday && (
+                  <p className="flex items-center gap-1">
+                    <Gift className="w-3 h-3" /> Birthday: {fc.birthday}
+                  </p>
+                )}
+                {fc.nextReminder && <p>⏰ Next reminder: {fc.nextReminder}</p>}
               </div>
+
+              {/* Smart prompts */}
+              {fc.smartPrompts && fc.smartPrompts.length > 0 && (
+                <div className="mb-2 space-y-1">
+                  {fc.smartPrompts.map((prompt, pi) => (
+                    <button key={pi} className="w-full text-left text-xs bg-module-family rounded-lg px-3 py-2 border border-module-family flex items-center gap-2 hover:opacity-80 transition-opacity">
+                      <Sparkles className="w-3 h-3 module-family flex-shrink-0" />
+                      <span>{prompt}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Promises */}
               {personPromises.length > 0 && (
-                <div className="mt-2 pt-2 border-t space-y-1">
+                <div className="pt-2 border-t space-y-1">
                   {personPromises.map(p => (
                     <div key={p.id} className="flex items-center justify-between">
                       <p className="text-xs">{p.promise}</p>
