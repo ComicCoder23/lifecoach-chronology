@@ -1,4 +1,4 @@
-import { Rocket, Shield, Heart, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Utensils, CheckSquare, Clock } from 'lucide-react';
+import { Shield, Heart, CreditCard, Mail, FileText, BookOpen, TrendingUp, Utensils, CheckSquare, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -6,7 +6,7 @@ const moreItems = [
   { path: '/disciplines', icon: CheckSquare, label: 'Disciplines', color: 'module-recovery' },
   { path: '/timeline', icon: Clock, label: 'Timeline', color: '' },
   { path: '/evidence', icon: FileText, label: 'Evidence Log', color: 'module-adp' },
-  { path: '/promises', icon: Heart, label: 'Promises', color: 'module-family' },
+  { path: '/promises', icon: Heart, label: 'Promise Tracker', color: 'module-family' },
   { path: '/meals', icon: Utensils, label: 'Meals & SW Coach', color: 'module-health' },
   { path: '/debt', icon: CreditCard, label: 'Debt & Credit Builder', color: 'module-debt' },
   { path: '/mail', icon: Mail, label: 'Post & Mail Triage', color: 'module-mail' },
@@ -19,8 +19,8 @@ export default function MoreMenu() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <h1 className="text-xl font-bold">More</h1>
+    <div className="px-5 pt-6 max-w-lg mx-auto space-y-4 pb-24">
+      <h1 className="text-2xl font-bold">More</h1>
       <div className="space-y-1">
         {moreItems.map((item, i) => (
           <motion.button
@@ -29,7 +29,7 @@ export default function MoreMenu() {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: i * 0.03 }}
-            className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-accent transition-colors text-left"
+            className="w-full flex items-center gap-3 p-3.5 rounded-2xl hover:bg-accent transition-colors text-left"
           >
             <item.icon className={`w-5 h-5 ${item.color}`} />
             <span className="text-sm font-medium">{item.label}</span>
