@@ -11,6 +11,7 @@ import Timeline from "./pages/Timeline";
 import QuickCapture from "./pages/QuickCapture";
 import CalendarView from "./pages/CalendarView";
 import EvidenceView from "./pages/EvidenceView";
+import ADPVault from "./pages/ADPVault";
 import PromiseTracker from "./pages/PromiseTracker";
 import FamilyView from "./pages/FamilyView";
 import MealCapture from "./pages/MealCapture";
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/capture" element={<QuickCapture />} />
             <Route path="/calendar" element={<CalendarView />} />
             <Route path="/evidence" element={<EvidenceView />} />
+            <Route path="/adp-vault" element={<ADPVault />} />
             <Route path="/promises" element={<PromiseTracker />} />
             <Route path="/family" element={<FamilyView />} />
             <Route path="/meals" element={<MealCapture />} />
