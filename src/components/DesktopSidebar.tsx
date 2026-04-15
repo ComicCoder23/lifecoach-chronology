@@ -24,10 +24,10 @@ export function DesktopSidebar() {
   const navigate = useNavigate();
 
   return (
-    <aside className="hidden md:flex flex-col w-56 border-r bg-card min-h-screen p-3 gap-0.5 fixed left-0 top-0 bottom-0 overflow-y-auto">
+    <aside className="hidden md:flex flex-col w-56 border-r bg-sidebar min-h-screen p-3 gap-0.5 fixed left-0 top-0 bottom-0 overflow-y-auto">
       <div className="px-3 py-4 mb-2">
-        <h1 className="font-bold text-base">Smart Organiser</h1>
-        <p className="text-xs text-muted-foreground">& Journal</p>
+        <h2 className="font-bold text-base" style={{ fontFamily: "'DM Serif Display', Georgia, serif" }}>Smart Organiser</h2>
+        <p className="text-xs text-muted-foreground">Your Life OS</p>
       </div>
       {navItems.map(item => {
         const active = location.pathname === item.path;
@@ -35,7 +35,7 @@ export function DesktopSidebar() {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors text-left ${active ? 'bg-accent font-medium text-foreground' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'}`}
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm transition-colors text-left ${active ? 'bg-accent font-medium text-foreground' : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'}`}
           >
             <item.icon className="w-4 h-4 flex-shrink-0" />
             {item.label}
