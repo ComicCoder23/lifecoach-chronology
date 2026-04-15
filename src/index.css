@@ -2,95 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 36 33% 97%;
+    --foreground: 220 20% 14%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 20% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 20% 14%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 20% 14%;
+    --primary-foreground: 36 33% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 36 20% 93%;
+    --secondary-foreground: 220 20% 14%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 36 15% 93%;
+    --muted-foreground: 220 10% 46%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 36 20% 90%;
+    --accent-foreground: 220 20% 14%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 36 15% 88%;
+    --input: 36 15% 88%;
+    --ring: 220 20% 14%;
+    --radius: 0.75rem;
 
-    --radius: 0.5rem;
+    /* Module colours */
+    --recovery: 142 60% 40%;
+    --recovery-light: 142 50% 94%;
+    --health: 210 70% 50%;
+    --health-light: 210 60% 94%;
+    --content: 28 90% 55%;
+    --content-light: 28 70% 94%;
+    --adp: 270 50% 55%;
+    --adp-light: 270 40% 94%;
+    --faith: 40 85% 55%;
+    --faith-light: 40 70% 94%;
+    --family: 340 65% 60%;
+    --family-light: 340 55% 94%;
+    --mail: 200 75% 55%;
+    --mail-light: 200 60% 94%;
+    --debt: 230 60% 55%;
+    --debt-light: 230 50% 94%;
 
-    --sidebar-background: 0 0% 98%;
+    /* Priority colours */
+    --priority-critical: 0 84% 55%;
+    --priority-high: 28 90% 55%;
+    --priority-medium: 210 70% 50%;
+    --priority-low: 142 40% 50%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Momentum */
+    --momentum: 142 60% 45%;
 
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 36 20% 95%;
+    --sidebar-foreground: 220 20% 14%;
+    --sidebar-primary: 220 20% 14%;
+    --sidebar-primary-foreground: 36 33% 97%;
+    --sidebar-accent: 36 20% 90%;
+    --sidebar-accent-foreground: 220 20% 14%;
+    --sidebar-border: 36 15% 88%;
+    --sidebar-ring: 220 20% 14%;
   }
 }
 
@@ -98,8 +75,41 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .module-recovery { color: hsl(var(--recovery)); }
+  .module-health { color: hsl(var(--health)); }
+  .module-content { color: hsl(var(--content)); }
+  .module-adp { color: hsl(var(--adp)); }
+  .module-faith { color: hsl(var(--faith)); }
+  .module-family { color: hsl(var(--family)); }
+  .module-mail { color: hsl(var(--mail)); }
+  .module-debt { color: hsl(var(--debt)); }
+
+  .bg-module-recovery { background-color: hsl(var(--recovery-light)); }
+  .bg-module-health { background-color: hsl(var(--health-light)); }
+  .bg-module-content { background-color: hsl(var(--content-light)); }
+  .bg-module-adp { background-color: hsl(var(--adp-light)); }
+  .bg-module-faith { background-color: hsl(var(--faith-light)); }
+  .bg-module-family { background-color: hsl(var(--family-light)); }
+  .bg-module-mail { background-color: hsl(var(--mail-light)); }
+  .bg-module-debt { background-color: hsl(var(--debt-light)); }
+
+  .border-module-recovery { border-color: hsl(var(--recovery) / 0.3); }
+  .border-module-health { border-color: hsl(var(--health) / 0.3); }
+  .border-module-content { border-color: hsl(var(--content) / 0.3); }
+  .border-module-adp { border-color: hsl(var(--adp) / 0.3); }
+  .border-module-faith { border-color: hsl(var(--faith) / 0.3); }
+  .border-module-family { border-color: hsl(var(--family) / 0.3); }
+  .border-module-mail { border-color: hsl(var(--mail) / 0.3); }
+  .border-module-debt { border-color: hsl(var(--debt) / 0.3); }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
