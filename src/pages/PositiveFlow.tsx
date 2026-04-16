@@ -7,6 +7,8 @@ import {
   breakfastPerformance, breakfastTypes,
   sleepEntries, positiveFunctionEntries,
 } from '@/data/flowData';
+import { expandedTriggers, momentumRescues } from '@/data/telemetryData';
+import { useNavigate } from 'react-router-dom';
 
 const ScoreBar = ({ value, max = 10, color = 'bg-momentum' }: { value: number; max?: number; color?: string }) => (
   <div className="w-full bg-muted rounded-full h-2">
@@ -24,8 +26,10 @@ const ScorePill = ({ value, max = 10, label }: { value: number; max?: number; la
 export default function PositiveFlow() {
   const [expandedSection, setExpandedSection] = useState<string | null>('flow');
   const [expandedTriggerCat, setExpandedTriggerCat] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const toggle = (section: string) => setExpandedSection(expandedSection === section ? null : section);
+  const allTriggers = [...musicTriggers, ...expandedTriggers];
 
   const latestFlow = demoFlowSessions[0];
   const bestSession = demoFlowSessions.reduce((a, b) => a.happinessSpike + a.outputQuality > b.happinessSpike + b.outputQuality ? a : b);
@@ -153,7 +157,7 @@ export default function PositiveFlow() {
           {expandedSection === 'music' && (
             <div className="px-5 pb-5 space-y-3">
               {triggerCategories.map(cat => {
-                const catTriggers = musicTriggers.filter(t => t.category === cat.key);
+                const catTriggers = allTriggers.filter(t => t.category === cat.key);
                 const isOpen = expandedTriggerCat === cat.key;
                 return (
                   <div key={cat.key} className="rounded-xl border overflow-hidden">
