@@ -1,4 +1,4 @@
-import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Shield, Heart, Utensils, Sparkles } from 'lucide-react';
+import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Shield, Heart, Utensils, Sparkles, Link2, Brain } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const navItems = [
@@ -7,6 +7,8 @@ const navItems = [
   { path: '/adp-vault', icon: Shield, label: 'ADP Evidence Vault' },
   { path: '/calendar', icon: Calendar, label: 'Calendar + Diary' },
   { path: '/flow', icon: Sparkles, label: 'Positive Flow' },
+  { path: '/rescue', icon: Brain, label: 'Momentum Rescue' },
+  { path: '/sources', icon: Link2, label: 'Trusted Sources' },
   { path: '/capture', icon: Zap, label: 'Quick Capture' },
   { path: '/family', icon: Users, label: 'Family' },
   { path: '/promises', icon: Heart, label: 'Promise Tracker' },
