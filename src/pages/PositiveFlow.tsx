@@ -7,6 +7,8 @@ import {
   breakfastPerformance, breakfastTypes,
   sleepEntries, positiveFunctionEntries,
 } from '@/data/flowData';
+import { expandedTriggers, momentumRescues } from '@/data/telemetryData';
+import { useNavigate } from 'react-router-dom';
 
 const ScoreBar = ({ value, max = 10, color = 'bg-momentum' }: { value: number; max?: number; color?: string }) => (
   <div className="w-full bg-muted rounded-full h-2">
@@ -24,8 +26,10 @@ const ScorePill = ({ value, max = 10, label }: { value: number; max?: number; la
 export default function PositiveFlow() {
   const [expandedSection, setExpandedSection] = useState<string | null>('flow');
   const [expandedTriggerCat, setExpandedTriggerCat] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const toggle = (section: string) => setExpandedSection(expandedSection === section ? null : section);
+  const allTriggers = [...musicTriggers, ...expandedTriggers];
 
   const latestFlow = demoFlowSessions[0];
   const bestSession = demoFlowSessions.reduce((a, b) => a.happinessSpike + a.outputQuality > b.happinessSpike + b.outputQuality ? a : b);
@@ -153,7 +157,7 @@ export default function PositiveFlow() {
           {expandedSection === 'music' && (
             <div className="px-5 pb-5 space-y-3">
               {triggerCategories.map(cat => {
-                const catTriggers = musicTriggers.filter(t => t.category === cat.key);
+                const catTriggers = allTriggers.filter(t => t.category === cat.key);
                 const isOpen = expandedTriggerCat === cat.key;
                 return (
                   <div key={cat.key} className="rounded-xl border overflow-hidden">
@@ -322,6 +326,29 @@ export default function PositiveFlow() {
               ))}
             </div>
           )}
+        </motion.div>
+
+        {/* Auto-Prompt: Protected Flow Window */}
+        <motion.div className="p-4 rounded-2xl border-2 border-dashed border-momentum/40 bg-momentum/5" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.32 }}>
+          <div className="flex items-center gap-2 mb-2">
+            <Zap className="w-4 h-4 text-momentum" />
+            <p className="text-sm font-semibold">Flow Window Auto-Prompt</p>
+          </div>
+          <p className="text-xs text-muted-foreground mb-3">Based on today's sleep ({latestSleep.hoursSlept}hrs), CPAP ({latestSleep.cpapQuality}/10), and best breakfast ({bestBreakfast.type}):</p>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-card border">
+              <span>🎵</span><p className="text-sm">Play <span className="font-medium">Fred again.. – Danielle</span> at 10:55</p>
+            </div>
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-card border">
+              <span>✍️</span><p className="text-sm">Start <span className="font-medium">deep writing</span> at 11:00</p>
+            </div>
+            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-card border">
+              <span>🥣</span><p className="text-sm">Breakfast: <span className="font-medium">{bestBreakfast.type}</span> for {bestBreakfast.avgScore}% flow</p>
+            </div>
+          </div>
+          <button onClick={() => navigate('/rescue')} className="mt-3 text-xs font-medium text-momentum hover:underline">
+            Feeling stuck instead? → Open Momentum Rescue
+          </button>
         </motion.div>
 
         {/* Positive Function Evidence */}

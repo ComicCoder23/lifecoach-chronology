@@ -22,6 +22,8 @@ import WrapBook from "./pages/WrapBook";
 import WeeklyReport from "./pages/WeeklyReport";
 import MoreMenu from "./pages/MoreMenu";
 import PositiveFlow from "./pages/PositiveFlow";
+import TrustedSources from "./pages/TrustedSources";
+import MomentumRescue from "./pages/MomentumRescue";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +53,8 @@ const App = () => (
             <Route path="/wrap" element={<WrapBook />} />
             <Route path="/weekly" element={<WeeklyReport />} />
             <Route path="/flow" element={<PositiveFlow />} />
+            <Route path="/sources" element={<TrustedSources />} />
+            <Route path="/rescue" element={<MomentumRescue />} />
             <Route path="/more" element={<MoreMenu />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

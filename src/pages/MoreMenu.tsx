@@ -1,8 +1,10 @@
-import { Shield, Heart, CreditCard, Mail, FileText, BookOpen, TrendingUp, Utensils, CheckSquare, Clock } from 'lucide-react';
+import { Shield, Heart, CreditCard, Mail, FileText, BookOpen, TrendingUp, Utensils, CheckSquare, Clock, Link2, Brain } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const moreItems = [
+  { path: '/rescue', icon: Brain, label: 'Momentum Rescue', color: 'module-recovery' },
+  { path: '/sources', icon: Link2, label: 'Trusted Sources', color: 'module-content' },
   { path: '/disciplines', icon: CheckSquare, label: 'Disciplines', color: 'module-recovery' },
   { path: '/timeline', icon: Clock, label: 'Timeline', color: '' },
   { path: '/evidence', icon: FileText, label: 'Evidence Log', color: 'module-adp' },
