@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Rocket, Zap, Calendar, Heart, CreditCard, Users, Mail, Shield, TrendingUp, ChevronRight, Moon, Sparkles } from 'lucide-react';
+import { Rocket, Zap, Calendar, Heart, CreditCard, Users, Mail, Shield, TrendingUp, ChevronRight, Moon, Sparkles, Brain, Link2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ModuleBadge } from '@/components/ModuleBadge';
 import { launchSteps, promises, appointments } from '@/data/demoData';
@@ -25,11 +25,11 @@ const getSobrietyData = () => {
 const quickTiles = [
   { icon: Rocket, label: 'Launch', path: '/launch', color: 'bg-module-recovery border-module-recovery module-recovery' },
   { icon: Calendar, label: 'Calendar + Diary', path: '/calendar', color: 'bg-module-health border-module-health module-health' },
-  { icon: Mail, label: 'Mail', path: '/mail', color: 'bg-module-mail border-module-mail module-mail' },
+  { icon: Brain, label: 'Rescue', path: '/rescue', color: 'bg-module-content border-module-content module-content' },
   { icon: CreditCard, label: 'Debt', path: '/debt', color: 'bg-module-debt border-module-debt module-debt' },
   { icon: Users, label: 'Family', path: '/family', color: 'bg-module-family border-module-family module-family' },
   { icon: Shield, label: 'ADP Vault', path: '/adp-vault', color: 'bg-module-adp border-module-adp module-adp' },
-  { icon: Zap, label: 'Capture', path: '/capture', color: 'bg-module-content border-module-content module-content' },
+  { icon: Link2, label: 'Sources', path: '/sources', color: 'bg-module-faith border-module-faith module-faith' },
   { icon: Moon, label: 'PM Close', path: '/launch', color: 'bg-module-recovery border-module-recovery module-recovery' },
 ];
 
