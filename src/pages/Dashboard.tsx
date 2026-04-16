@@ -158,19 +158,24 @@ export default function Dashboard() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Momentum + Content Flywheel */}
-        <motion.div className="grid grid-cols-2 gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+        {/* Momentum + Flow + Launch */}
+        <motion.div className="grid grid-cols-3 gap-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
           <div className="card-warm rounded-2xl border p-4">
-            <p className="text-xs text-muted-foreground mb-1">Daily Momentum</p>
-            <p className="text-3xl font-bold text-momentum">{momentumScore}%</p>
-            <div className="w-full bg-muted rounded-full h-2.5 mt-2">
-              <div className="bg-momentum h-2.5 rounded-full transition-all" style={{ width: `${momentumScore}%` }} />
+            <p className="text-xs text-muted-foreground mb-1">Momentum</p>
+            <p className="text-2xl font-bold text-momentum">{momentumScore}%</p>
+            <div className="w-full bg-muted rounded-full h-2 mt-2">
+              <div className="bg-momentum h-2 rounded-full transition-all" style={{ width: `${momentumScore}%` }} />
             </div>
           </div>
-          <button onClick={() => navigate('/launch')} className="card-warm rounded-2xl border p-4 text-left">
-            <p className="text-xs text-muted-foreground mb-1">AM Launch</p>
-            <p className="text-3xl font-bold">{launchPercent}%</p>
-            <p className="text-xs text-muted-foreground mt-1">{completedLaunch}/{totalLaunch} steps</p>
+          <button onClick={() => navigate('/flow')} className="card-warm rounded-2xl border p-4 text-left hover:scale-105 transition-transform">
+            <p className="text-xs text-muted-foreground mb-1">✨ Flow</p>
+            <p className="text-2xl font-bold module-content">9/10</p>
+            <p className="text-[10px] text-muted-foreground mt-1">Best: 11am</p>
+          </button>
+          <button onClick={() => navigate('/launch')} className="card-warm rounded-2xl border p-4 text-left hover:scale-105 transition-transform">
+            <p className="text-xs text-muted-foreground mb-1">Launch</p>
+            <p className="text-2xl font-bold">{launchPercent}%</p>
+            <p className="text-[10px] text-muted-foreground mt-1">{completedLaunch}/{totalLaunch}</p>
           </button>
         </motion.div>
 

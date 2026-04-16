@@ -21,6 +21,7 @@ import LifeAdmin from "./pages/LifeAdmin";
 import WrapBook from "./pages/WrapBook";
 import WeeklyReport from "./pages/WeeklyReport";
 import MoreMenu from "./pages/MoreMenu";
+import PositiveFlow from "./pages/PositiveFlow";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/admin" element={<LifeAdmin />} />
             <Route path="/wrap" element={<WrapBook />} />
             <Route path="/weekly" element={<WeeklyReport />} />
+            <Route path="/flow" element={<PositiveFlow />} />
             <Route path="/more" element={<MoreMenu />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
