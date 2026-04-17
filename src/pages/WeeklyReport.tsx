@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { TrendingUp, ArrowUp, ArrowDown, Minus } from 'lucide-react';
 import { ModuleBadge } from '@/components/ModuleBadge';
+import { CompanionHero } from '@/components/CompanionHero';
 
 const weekData = [
   { area: 'Recovery', module: 'recovery' as const, trend: 'up', detail: 'All AM prayers completed. Gratitude list 6/7 days.' },
@@ -20,14 +21,19 @@ const TrendIcon = ({ t }: { t: string }) => {
 
 export default function WeeklyReport() {
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
-      <div className="flex items-center gap-2">
-        <TrendingUp className="w-5 h-5" />
-        <h1 className="text-xl font-bold">Weekly Evolution</h1>
-      </div>
-      <p className="text-sm text-muted-foreground">Week of 7–13 April 2026</p>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero scene="water" imageOpacity={0.5} className="px-5 pt-6 pb-8 mb-5">
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+          <div className="flex items-center gap-2 mb-1">
+            <TrendingUp className="w-5 h-5 module-health" />
+            <p className="text-sm font-medium text-muted-foreground">Reflection</p>
+          </div>
+          <h1 className="text-2xl font-bold drop-shadow-sm">Weekly Evolution</h1>
+          <p className="text-sm text-foreground/75 mt-1">Week of 7–13 April 2026</p>
+        </motion.div>
+      </CompanionHero>
 
-      <div className="space-y-2">
+      <div className="px-4 space-y-2">
         {weekData.map((w, i) => (
           <motion.div
             key={i}

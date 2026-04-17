@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, TrendingDown, TrendingUp, Music, Heart, Utensils, BookOpen, Brain, ChevronDown, ChevronUp, Mic, Video, Star, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CompanionHero } from '@/components/CompanionHero';
 import { momentumRescues, demoSpikes, demoVoiceAudits } from '@/data/telemetryData';
 
 const typeIcon = (type: string) => {
@@ -26,25 +27,26 @@ export default function MomentumRescue() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <div className="hero-gradient px-5 pt-6 pb-8 rounded-b-3xl mb-5">
+      {/* Calm grounding scene for slump recovery */}
+      <CompanionHero scene="calm" imageOpacity={0.5} className="px-5 pt-6 pb-8 mb-5">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-2 mb-1">
             <Brain className="w-5 h-5 text-momentum" />
             <p className="text-sm font-medium text-muted-foreground">Adaptive Intelligence</p>
           </div>
-          <h1 className="text-2xl font-bold">Momentum Rescue Engine</h1>
-          <p className="text-sm text-muted-foreground mt-1">Detect slumps · Surface interventions · Restore momentum</p>
+          <h1 className="text-2xl font-bold drop-shadow-sm">Momentum Rescue Engine</h1>
+          <p className="text-sm text-foreground/75 mt-1">Detect slumps · Surface interventions · Restore momentum</p>
         </motion.div>
 
         <motion.div className="mt-4 flex gap-3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
           <Button size="sm" className="flex-1 bg-momentum hover:bg-momentum/90 text-primary-foreground" onClick={() => setLogOpen(!logOpen)}>
             <TrendingDown className="w-4 h-4 mr-1" /> Log a Slump
           </Button>
-          <Button size="sm" variant="outline" className="flex-1">
+          <Button size="sm" variant="outline" className="flex-1 bg-card/80 backdrop-blur-sm">
             <TrendingUp className="w-4 h-4 mr-1" /> Log a Spike
           </Button>
         </motion.div>
-      </div>
+      </CompanionHero>
 
       <div className="px-5 space-y-4">
         {/* Quick Log Drawer */}
