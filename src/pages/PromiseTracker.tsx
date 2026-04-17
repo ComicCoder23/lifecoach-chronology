@@ -1,35 +1,100 @@
-import { motion } from 'framer-motion';
-import { Heart } from 'lucide-react';
-import { promises } from '@/data/demoData';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Check, RotateCcw, Plus, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { promises as seedPromises } from '@/data/demoData';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { toast } from '@/hooks/use-toast';
+import type { Promise as PromiseT } from '@/types';
 
 export default function PromiseTracker() {
+  const [items, setItems] = useLocalStorage<PromiseT[]>('promises', seedPromises);
+  const [adding, setAdding] = useState(false);
+  const [newPromise, setNewPromise] = useState('');
+  const [newPerson, setNewPerson] = useState('');
+  const [newDue, setNewDue] = useState('');
+
+  const setStatus = (id: string, status: PromiseT['status']) => {
+    setItems(items.map(p => (p.id === id ? { ...p, status } : p)));
+    if (status === 'done') toast({ title: '✅ Promise kept', description: 'Trust +1.' });
+  };
+
+  const handleAdd = () => {
+    if (!newPromise.trim() || !newPerson.trim()) return;
+    const p: PromiseT = {
+      id: crypto.randomUUID(),
+      promise: newPromise.trim(),
+      person: newPerson.trim(),
+      due: newDue.trim() || 'Today',
+      status: 'pending',
+      trustImpact: 'medium',
+      module: 'family',
+    };
+    setItems([p, ...items]);
+    setNewPromise(''); setNewPerson(''); setNewDue('');
+    setAdding(false);
+    toast({ title: '🤝 Promise logged', description: `To ${p.person}` });
+  };
+
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
+    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
       <div className="flex items-center gap-2">
         <Heart className="w-5 h-5 module-family" />
         <h1 className="text-xl font-bold">Promise Tracker</h1>
       </div>
       <p className="text-sm text-muted-foreground">Keep your word. Build trust.</p>
 
+      {!adding ? (
+        <Button onClick={() => setAdding(true)} variant="outline" className="w-full">
+          <Plus className="w-4 h-4 mr-1" /> New Promise
+        </Button>
+      ) : (
+        <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl border p-3 space-y-2">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold">New promise</p>
+            <button onClick={() => setAdding(false)}><X className="w-4 h-4 text-muted-foreground" /></button>
+          </div>
+          <input value={newPromise} onChange={e => setNewPromise(e.target.value)} placeholder="What did you promise?" className="w-full bg-background border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+          <input value={newPerson} onChange={e => setNewPerson(e.target.value)} placeholder="To whom? (Linda, Lisa, Dannielle...)" className="w-full bg-background border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+          <input value={newDue} onChange={e => setNewDue(e.target.value)} placeholder="Due (e.g. Friday, 24/12/2025)" className="w-full bg-background border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+          <Button onClick={handleAdd} className="w-full bg-momentum hover:bg-momentum/90 text-primary-foreground" disabled={!newPromise.trim() || !newPerson.trim()}>Save Promise</Button>
+        </motion.div>
+      )}
+
       <div className="space-y-2">
-        {promises.map((p, i) => (
-          <motion.div
-            key={p.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.05 }}
-            className="bg-card rounded-xl border p-4"
-          >
-            <div className="flex items-start justify-between mb-1">
-              <p className="text-sm font-medium">{p.promise}</p>
-              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${p.status === 'overdue' ? 'bg-priority-critical/10 text-priority-critical' : p.status === 'done' ? 'bg-momentum/10 text-momentum' : 'bg-muted text-muted-foreground'}`}>
-                {p.status}
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground">{p.person} · Due: {p.due}</p>
-            <p className="text-xs mt-1">Trust impact: <span className={`font-medium ${p.trustImpact === 'high' ? 'text-priority-high' : 'text-muted-foreground'}`}>{p.trustImpact}</span></p>
-          </motion.div>
-        ))}
+        <AnimatePresence>
+          {items.map((p, i) => (
+            <motion.div
+              key={p.id}
+              layout
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ delay: i * 0.03 }}
+              className="bg-card rounded-xl border p-4"
+            >
+              <div className="flex items-start justify-between mb-1 gap-2">
+                <p className={`text-sm font-medium ${p.status === 'done' ? 'line-through text-muted-foreground' : ''}`}>{p.promise}</p>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap ${p.status === 'overdue' ? 'bg-priority-critical/10 text-priority-critical' : p.status === 'done' ? 'bg-momentum/10 text-momentum' : 'bg-muted text-muted-foreground'}`}>
+                  {p.status}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">{p.person} · Due: {p.due}</p>
+              <p className="text-xs mt-1">Trust impact: <span className={`font-medium ${p.trustImpact === 'high' ? 'text-priority-high' : 'text-muted-foreground'}`}>{p.trustImpact}</span></p>
+              <div className="flex gap-1.5 mt-2">
+                {p.status !== 'done' ? (
+                  <Button size="sm" variant="outline" onClick={() => setStatus(p.id, 'done')} className="h-7 text-xs">
+                    <Check className="w-3 h-3 mr-1" /> Mark done
+                  </Button>
+                ) : (
+                  <Button size="sm" variant="ghost" onClick={() => setStatus(p.id, 'pending')} className="h-7 text-xs">
+                    <RotateCcw className="w-3 h-3 mr-1" /> Reopen
+                  </Button>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
