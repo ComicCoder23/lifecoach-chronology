@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Rocket, Zap, Calendar, Heart, CreditCard, Users, Mail, Shield, TrendingUp, ChevronRight, Moon, Sparkles, Brain, Link2 } from 'lucide-react';
+import { Rocket, Calendar, CreditCard, Users, Shield, TrendingUp, ChevronRight, Moon, Sparkles, Brain, Link2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ModuleBadge } from '@/components/ModuleBadge';
+import { CompanionHero } from '@/components/CompanionHero';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { launchSteps, promises, appointments } from '@/data/demoData';
 import { emotionalStates, type EmotionalState } from '@/data/emotionalStates';
 import { format } from 'date-fns';
@@ -60,16 +62,23 @@ export default function Dashboard() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      {/* Hero gradient header */}
-      <div className="hero-gradient px-5 pt-6 pb-8 -mx-0 rounded-b-3xl mb-5">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="text-sm text-muted-foreground font-medium">{format(new Date(), 'EEEE, d MMMM yyyy')}</p>
-          <h1 className="text-3xl font-bold mt-1">Good Morning ☀️</h1>
+      {/* Hero with companion image background */}
+      <CompanionHero priority imageOpacity={0.6} className="px-5 pt-6 pb-8 mb-5">
+        <motion.div
+          className="flex items-start justify-between"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div>
+            <p className="text-sm text-foreground/80 font-medium drop-shadow-sm">{format(new Date(), 'EEEE, d MMMM yyyy')}</p>
+            <h1 className="text-3xl font-bold mt-1 drop-shadow-sm">Good Morning ☀️</h1>
+          </div>
+          <ThemeSwitcher />
         </motion.div>
 
         {/* Recovery Hero Streak Ring */}
         <motion.div
-          className="mt-5 bg-card/80 backdrop-blur-sm rounded-2xl border p-5"
+          className="mt-5 bg-card/85 backdrop-blur-md rounded-2xl border p-5 shadow-lg"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
@@ -101,7 +110,7 @@ export default function Dashboard() {
             </div>
           </div>
         </motion.div>
-      </div>
+      </CompanionHero>
 
       <div className="px-5 space-y-5">
         {/* Emotional State Engine */}
