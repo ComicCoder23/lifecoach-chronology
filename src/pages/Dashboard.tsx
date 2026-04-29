@@ -8,6 +8,7 @@ import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { launchSteps, promises, appointments } from '@/data/demoData';
 import { emotionalStates, type EmotionalState } from '@/data/emotionalStates';
+import type { ModuleType } from '@/types';
 import { format } from 'date-fns';
 
 // Sobriety calc
@@ -46,8 +47,11 @@ interface PromiseEntry {
 
 interface ADPEntry {
   id: string;
+  title?: string;
   type?: string;
   note?: string;
+  date?: string;
+  severity?: number;
   ts?: number;
   timestamp?: number;
 }
@@ -61,9 +65,21 @@ interface CaptureEntry {
 
 const parseDueDate = (due?: string) => {
   if (!due) return Date.now();
+  if (due.toLowerCase() === 'today') return Date.now();
+  const ukDate = due.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (ukDate) return new Date(Number(ukDate[3]), Number(ukDate[2]) - 1, Number(ukDate[1])).getTime();
   const parsed = new Date(due).getTime();
   return Number.isNaN(parsed) ? Date.now() : parsed;
 };
+
+interface WhatMattersItem {
+  id: string;
+  label: string;
+  date: string;
+  sortDate: number;
+  module: ModuleType;
+  icon: string;
+}
 
 export default function Dashboard() {
   const navigate = useNavigate();
