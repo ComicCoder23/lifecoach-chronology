@@ -23,6 +23,7 @@ import WrapBook from "./pages/WrapBook";
 import WeeklyReport from "./pages/WeeklyReport";
 import MoreMenu from "./pages/MoreMenu";
 import PositiveFlow from "./pages/PositiveFlow";
+import ContentEngine from "./pages/ContentEngine";
 import TrustedSources from "./pages/TrustedSources";
 import MomentumRescue from "./pages/MomentumRescue";
 import NotFound from "./pages/NotFound";
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/wrap" element={<WrapBook />} />
             <Route path="/weekly" element={<WeeklyReport />} />
             <Route path="/flow" element={<PositiveFlow />} />
+            <Route path="/content" element={<ContentEngine />} />
             <Route path="/sources" element={<TrustedSources />} />
             <Route path="/rescue" element={<MomentumRescue />} />
             <Route path="/more" element={<MoreMenu />} />
