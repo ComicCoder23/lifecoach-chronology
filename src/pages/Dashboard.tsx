@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { ModuleBadge } from '@/components/ModuleBadge';
 import { CompanionHero } from '@/components/CompanionHero';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { launchSteps, promises, appointments } from '@/data/demoData';
 import { emotionalStates, type EmotionalState } from '@/data/emotionalStates';
 import { format } from 'date-fns';
 
 // Sobriety calc
-const SOBRIETY_START = new Date('2025-01-14');
+const SOBRIETY_START = new Date('2024-09-14');
 const getSobrietyData = () => {
   const now = new Date();
   const diff = now.getTime() - SOBRIETY_START.getTime();
@@ -35,17 +36,34 @@ const quickTiles = [
   { icon: Moon, label: 'PM Close', path: '/launch', color: 'bg-module-recovery border-module-recovery module-recovery' },
 ];
 
-// Predictive nexts
-const predictiveNexts = [
-  { label: 'GP Appointment', date: '21/04/2026', module: 'health' as const, icon: '🏥' },
-  { label: 'AA Meeting', date: 'Today 7pm', module: 'recovery' as const, icon: '🟢' },
-  { label: 'Visit Mum', date: '19/04/2026', module: 'family' as const, icon: '💝' },
-  { label: 'Babysit for Danielle', date: '19/04/2026', module: 'family' as const, icon: '👶' },
-  { label: 'Credit Card Payment', date: '25/04/2026', module: 'debt' as const, icon: '💳' },
-  { label: 'Lara\'s Birthday', date: '25/04/2026', module: 'family' as const, icon: '🎂' },
-  { label: 'OT Appointment', date: '05/05/2026', module: 'adp' as const, icon: '🩺' },
-  { label: 'Post Content', date: 'Today', module: 'content' as const, icon: '📱' },
-];
+interface PromiseEntry {
+  id: string;
+  promise: string;
+  person: string;
+  due: string;
+  status: 'pending' | 'done' | 'overdue';
+}
+
+interface ADPEntry {
+  id: string;
+  type?: string;
+  note?: string;
+  ts?: number;
+  timestamp?: number;
+}
+
+interface CaptureEntry {
+  id: string;
+  mode: 'journal' | 'idea';
+  text: string;
+  ts: number;
+}
+
+const parseDueDate = (due?: string) => {
+  if (!due) return Date.now();
+  const parsed = new Date(due).getTime();
+  return Number.isNaN(parsed) ? Date.now() : parsed;
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
