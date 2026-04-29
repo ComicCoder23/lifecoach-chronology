@@ -5,6 +5,8 @@ import { ModuleBadge } from '@/components/ModuleBadge';
 import { CompletionDrawer } from '@/components/CompletionDrawer';
 import { disciplines as initialDiscs } from '@/data/demoData';
 import { Discipline } from '@/types';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { format } from 'date-fns';
 
 const timeBlocks = [
   { key: 'am', label: '🌅 AM' },
@@ -14,10 +16,27 @@ const timeBlocks = [
 ] as const;
 
 export default function Disciplines() {
+  const todayKey = format(new Date(), 'yyyy-MM-dd');
+  const [readingDone, setReadingDone] = useLocalStorage<boolean>(`discipline.dailyReading.${todayKey}`, false);
   const [discs, setDiscs] = useState<Discipline[]>(initialDiscs);
   const [selected, setSelected] = useState<Discipline | null>(null);
 
+  const dailyReading: Discipline = {
+    id: 'daily-reading',
+    title: 'Daily Reading',
+    module: 'faith',
+    timeBlock: 'am',
+    why: 'Starts content from truth, recovery, and reflection',
+    when: 'Morning',
+    unlocks: 'Content seed + grounded start',
+    completed: readingDone,
+    contentTrigger: true,
+  };
+
+  const displayDiscs = [dailyReading, ...discs];
+
   const handleComplete = (d: Discipline) => {
+    if (d.id === 'daily-reading') setReadingDone(true);
     setDiscs(prev => prev.map(x => x.id === d.id ? { ...x, completed: true } : x));
     setSelected(null);
   };
@@ -30,7 +49,7 @@ export default function Disciplines() {
       </div>
 
       {timeBlocks.map(block => {
-        const items = discs.filter(d => d.timeBlock === block.key);
+        const items = displayDiscs.filter(d => d.timeBlock === block.key);
         if (!items.length) return null;
         return (
           <div key={block.key}>
