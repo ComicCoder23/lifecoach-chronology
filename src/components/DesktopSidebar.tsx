@@ -7,6 +7,7 @@ const navItems = [
   { path: '/adp-vault', icon: Shield, label: 'ADP Evidence Vault' },
   { path: '/calendar', icon: Calendar, label: 'Calendar + Diary' },
   { path: '/flow', icon: Sparkles, label: 'Positive Flow' },
+  { path: '/content', icon: Sparkles, label: 'Content Engine' },
   { path: '/rescue', icon: Brain, label: 'Momentum Rescue' },
   { path: '/sources', icon: Link2, label: 'Trusted Sources' },
   { path: '/capture', icon: Zap, label: 'Quick Capture' },
