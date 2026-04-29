@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { ModuleBadge } from '@/components/ModuleBadge';
 import { CompanionHero } from '@/components/CompanionHero';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { launchSteps, promises, appointments } from '@/data/demoData';
 import { emotionalStates, type EmotionalState } from '@/data/emotionalStates';
+import type { ModuleType } from '@/types';
 import { format } from 'date-fns';
 
 // Sobriety calc
-const SOBRIETY_START = new Date('2025-01-14');
+const SOBRIETY_START = new Date('2024-09-14');
 const getSobrietyData = () => {
   const now = new Date();
   const diff = now.getTime() - SOBRIETY_START.getTime();
@@ -35,28 +37,91 @@ const quickTiles = [
   { icon: Moon, label: 'PM Close', path: '/launch', color: 'bg-module-recovery border-module-recovery module-recovery' },
 ];
 
-// Predictive nexts
-const predictiveNexts = [
-  { label: 'GP Appointment', date: '21/04/2026', module: 'health' as const, icon: '🏥' },
-  { label: 'AA Meeting', date: 'Today 7pm', module: 'recovery' as const, icon: '🟢' },
-  { label: 'Visit Mum', date: '19/04/2026', module: 'family' as const, icon: '💝' },
-  { label: 'Babysit for Danielle', date: '19/04/2026', module: 'family' as const, icon: '👶' },
-  { label: 'Credit Card Payment', date: '25/04/2026', module: 'debt' as const, icon: '💳' },
-  { label: 'Lara\'s Birthday', date: '25/04/2026', module: 'family' as const, icon: '🎂' },
-  { label: 'OT Appointment', date: '05/05/2026', module: 'adp' as const, icon: '🩺' },
-  { label: 'Post Content', date: 'Today', module: 'content' as const, icon: '📱' },
-];
+interface PromiseEntry {
+  id: string;
+  promise: string;
+  person: string;
+  due: string;
+  status: 'pending' | 'done' | 'overdue';
+}
+
+interface ADPEntry {
+  id: string;
+  title?: string;
+  type?: string;
+  note?: string;
+  date?: string;
+  severity?: number;
+  ts?: number;
+  timestamp?: number;
+}
+
+interface CaptureEntry {
+  id: string;
+  mode: 'journal' | 'idea';
+  text: string;
+  ts: number;
+}
+
+const parseDueDate = (due?: string) => {
+  if (!due) return Date.now();
+  if (due.toLowerCase() === 'today') return Date.now();
+  const ukDate = due.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (ukDate) return new Date(Number(ukDate[3]), Number(ukDate[2]) - 1, Number(ukDate[1])).getTime();
+  const parsed = new Date(due).getTime();
+  return Number.isNaN(parsed) ? Date.now() : parsed;
+};
+
+interface WhatMattersItem {
+  id: string;
+  label: string;
+  date: string;
+  sortDate: number;
+  module: ModuleType;
+  icon: string;
+}
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionalState | null>(null);
   const [showAllEmotions, setShowAllEmotions] = useState(false);
+  const [storedPromises] = useLocalStorage<PromiseEntry[]>('promises', []);
+  const [adpEntries] = useLocalStorage<ADPEntry[]>('adp-entries', []);
+  const [captures] = useLocalStorage<CaptureEntry[]>('captures', []);
 
   const sobriety = getSobrietyData();
   const completedLaunch = launchSteps.filter(s => s.completed).length;
   const totalLaunch = launchSteps.length;
   const launchPercent = Math.round((completedLaunch / totalLaunch) * 100);
   const momentumScore = 72;
+  const whatMattersNext: WhatMattersItem[] = [
+    ...storedPromises
+      .filter(p => p.status !== 'done')
+      .map(p => ({
+        id: `promise-${p.id}`,
+        label: p.promise,
+        date: `${p.person} · ${p.due || 'Today'}`,
+        sortDate: parseDueDate(p.due),
+        module: 'family' as ModuleType,
+        icon: '💝',
+      })),
+    ...adpEntries.map(e => ({
+      id: `adp-${e.id}`,
+      label: e.title || e.note || 'ADP evidence entry',
+      date: e.date || (e.ts || e.timestamp ? format(e.ts || e.timestamp || Date.now(), 'EEE d MMM') : 'Logged'),
+      sortDate: e.ts || e.timestamp || parseDueDate(e.date),
+      module: 'adp' as ModuleType,
+      icon: '🩺',
+    })),
+    ...captures.map(c => ({
+      id: `capture-${c.id}`,
+      label: c.mode === 'idea' ? c.text : 'Journal reflection',
+      date: format(c.ts, 'EEE d MMM, h:mma'),
+      sortDate: c.ts,
+      module: 'content' as ModuleType,
+      icon: c.mode === 'idea' ? '💡' : '📖',
+    })),
+  ].sort((a, b) => b.sortDate - a.sortDate);
 
   const visibleEmotions = showAllEmotions ? emotionalStates : emotionalStates.slice(0, 6);
 
@@ -209,8 +274,8 @@ export default function Dashboard() {
             <p className="text-sm font-semibold">What Matters Next</p>
           </div>
           <div className="space-y-2.5">
-            {predictiveNexts.slice(0, 6).map((next, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-card border hover:bg-accent/50 transition-colors cursor-pointer">
+            {whatMattersNext.slice(0, 6).map(next => (
+              <div key={next.id} className="flex items-center gap-3 p-3 rounded-xl bg-card border hover:bg-accent/50 transition-colors cursor-pointer">
                 <span className="text-lg">{next.icon}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{next.label}</p>
