@@ -85,12 +85,43 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionalState | null>(null);
   const [showAllEmotions, setShowAllEmotions] = useState(false);
+  const [storedPromises] = useLocalStorage<PromiseEntry[]>('promises', []);
+  const [adpEntries] = useLocalStorage<ADPEntry[]>('adp-entries', []);
+  const [captures] = useLocalStorage<CaptureEntry[]>('captures', []);
 
   const sobriety = getSobrietyData();
   const completedLaunch = launchSteps.filter(s => s.completed).length;
   const totalLaunch = launchSteps.length;
   const launchPercent = Math.round((completedLaunch / totalLaunch) * 100);
   const momentumScore = 72;
+  const whatMattersNext: WhatMattersItem[] = [
+    ...storedPromises
+      .filter(p => p.status !== 'done')
+      .map(p => ({
+        id: `promise-${p.id}`,
+        label: p.promise,
+        date: `${p.person} · ${p.due || 'Today'}`,
+        sortDate: parseDueDate(p.due),
+        module: 'family' as ModuleType,
+        icon: '💝',
+      })),
+    ...adpEntries.map(e => ({
+      id: `adp-${e.id}`,
+      label: e.title || e.note || 'ADP evidence entry',
+      date: e.date || (e.ts || e.timestamp ? format(e.ts || e.timestamp || Date.now(), 'EEE d MMM') : 'Logged'),
+      sortDate: e.ts || e.timestamp || parseDueDate(e.date),
+      module: 'adp' as ModuleType,
+      icon: '🩺',
+    })),
+    ...captures.map(c => ({
+      id: `capture-${c.id}`,
+      label: c.mode === 'idea' ? c.text : 'Journal reflection',
+      date: format(c.ts, 'EEE d MMM, h:mma'),
+      sortDate: c.ts,
+      module: 'content' as ModuleType,
+      icon: c.mode === 'idea' ? '💡' : '📖',
+    })),
+  ].sort((a, b) => b.sortDate - a.sortDate);
 
   const visibleEmotions = showAllEmotions ? emotionalStates : emotionalStates.slice(0, 6);
 
@@ -243,8 +274,8 @@ export default function Dashboard() {
             <p className="text-sm font-semibold">What Matters Next</p>
           </div>
           <div className="space-y-2.5">
-            {predictiveNexts.slice(0, 6).map((next, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-card border hover:bg-accent/50 transition-colors cursor-pointer">
+            {whatMattersNext.slice(0, 6).map(next => (
+              <div key={next.id} className="flex items-center gap-3 p-3 rounded-xl bg-card border hover:bg-accent/50 transition-colors cursor-pointer">
                 <span className="text-lg">{next.icon}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{next.label}</p>
