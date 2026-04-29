@@ -131,10 +131,10 @@ export const disciplines: Discipline[] = [
 export const promises: Promise[] = [
   { id: 'p1', promise: 'Visit Mum this week', person: 'Linda (Mum)', due: '2026-04-19', status: 'pending', trustImpact: 'high', module: 'family' },
   { id: 'p2', promise: 'Reply to Lisa about weekend', person: 'Lisa', due: '2026-04-16', status: 'pending', trustImpact: 'medium', module: 'family' },
-  { id: 'p3', promise: 'Babysit for Danielle Saturday', person: 'Danielle', due: '2026-04-19', status: 'pending', trustImpact: 'high', module: 'family' },
-  { id: 'p4', promise: 'Call Alistair re: garden help', person: 'Alistair', due: '2026-04-17', status: 'overdue', trustImpact: 'medium', module: 'family' },
-  { id: 'p5', promise: 'Send birthday card to Lara', person: 'Lara', due: '2026-04-25', status: 'pending', trustImpact: 'medium', module: 'family' },
-  { id: 'p6', promise: 'FaceTime Haley Bailey', person: 'Haley Bailey', due: '2026-04-20', status: 'pending', trustImpact: 'medium', module: 'family' },
+  { id: 'p3', promise: 'Babysit for Dannielle Saturday', person: 'Dannielle', due: '2026-04-19', status: 'pending', trustImpact: 'high', module: 'family' },
+  { id: 'p4', promise: 'Call Alasdair re: garden help', person: 'Alasdair', due: '2026-04-17', status: 'overdue', trustImpact: 'medium', module: 'family' },
+  { id: 'p5', promise: 'Send birthday card to Alara', person: 'Alara', due: '2026-04-25', status: 'pending', trustImpact: 'medium', module: 'family' },
+  { id: 'p6', promise: 'FaceTime Hailie Bailie', person: 'Hailie Bailie', due: '2026-04-20', status: 'pending', trustImpact: 'medium', module: 'family' },
 ];
 
 export const appointments: Appointment[] = [
@@ -164,28 +164,28 @@ export const familyContacts: FamilyContact[] = [
     smartPrompts: ['Reply about weekend plans'],
   },
   {
-    id: 'f3', name: 'Danielle', relationship: 'Sister', lastContact: '2026-04-13', nextReminder: '2026-04-19',
+    id: 'f3', name: 'Dannielle', relationship: 'Sister', lastContact: '2026-04-13', nextReminder: '2026-04-19',
     birthday: '08/03', contactCadence: 'weekly', visitCadence: 'weekly',
     notes: ['Babysitting confirmed for Saturday'],
     smartPrompts: ['Confirm babysitting details'],
   },
   {
-    id: 'f4', name: 'Alistair', relationship: 'Brother', lastContact: '2026-04-05', nextReminder: '2026-04-17',
+    id: 'f4', name: 'Alasdair', relationship: 'Brother', lastContact: '2026-04-05', nextReminder: '2026-04-17',
     birthday: '30/11', contactCadence: 'fortnightly', visitCadence: 'monthly',
     notes: ['Offered to help with garden — follow up'],
     smartPrompts: ['Call about garden help', 'Suggest meeting for coffee'],
   },
   {
-    id: 'f5', name: 'Lara', relationship: 'Niece', lastContact: '2026-04-08', nextReminder: '2026-04-25',
+    id: 'f5', name: 'Alara', relationship: 'Niece', lastContact: '2026-04-08', nextReminder: '2026-04-25',
     birthday: '25/04', contactCadence: 'monthly', visitCadence: 'monthly',
     notes: ['Birthday coming up!'],
-    smartPrompts: ['Send birthday card to Lara 🎂', 'Ask about school'],
+    smartPrompts: ['Send birthday card to Alara 🎂', 'Ask about school'],
   },
   {
-    id: 'f6', name: 'Haley Bailey', relationship: 'Niece', lastContact: '2026-04-01', nextReminder: '2026-04-20',
+    id: 'f6', name: 'Hailie Bailie', relationship: 'Niece', lastContact: '2026-04-01', nextReminder: '2026-04-20',
     birthday: '14/07', contactCadence: 'fortnightly', visitCadence: 'monthly',
     notes: ['Haven\'t FaceTimed in a while'],
-    smartPrompts: ['FaceTime Haley Bailey 📱', 'Ask about dance class'],
+    smartPrompts: ['FaceTime Hailie Bailie 📱', 'Ask about dance class'],
   },
 ];
 
