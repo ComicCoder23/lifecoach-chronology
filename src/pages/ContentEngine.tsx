@@ -30,15 +30,22 @@ const createDraft = (source: ReadingSource, reading: string, formatType: PostFor
   const cleaned = reading.trim();
   if (!cleaned) return '';
 
+  // TODO: Future API integration can replace this local template layer when a secure backend key is available.
+  const sourceTone = source === 'Bible verse'
+    ? 'faith, surrender, and hope'
+    : source === 'AA Big Book passage'
+      ? 'honesty, willingness, and the next right action'
+      : 'staying present, clean, and connected today';
+
   if (formatType === 'Instagram caption') {
-    return `Morning reflection ☀️\n\n${cleaned}\n\nWhat stood out to me today is that growth does not need to be dramatic to be real. One honest step, one surrendered thought, one better choice — that is still movement.\n\nToday I am choosing steadiness, gratitude, and the next right thing.\n\n#Recovery #Faith #MorningReflection #OneDayAtATime`;
+    return `Morning reflection ☀️\n\n${cleaned}\n\nWhat I’m taking from this today is ${sourceTone}. Recovery keeps teaching me that I do not need to solve everything at once — I just need to stay honest, stay close to what keeps me well, and take the next right step.\n\nToday I’m choosing steadiness over chaos, gratitude over fear, and progress over perfection.\n\n#Recovery #OneDayAtATime #MorningReflection #ScotlandRecovery`;
   }
 
   if (formatType === 'WhatsApp message') {
-    return `Morning thought ☀️\n\n${cleaned}\n\nThis spoke to me today: keep it simple, stay honest, and take the next right step. Hope this brings a bit of peace and strength into your morning.`;
+    return `Morning thought ☀️\n\n${cleaned}\n\nThis landed with me today around ${sourceTone}. Keeping it simple: stay honest, stay connected, and do the next right thing. Hope this brings a wee bit of peace and strength into your morning.`;
   }
 
-  return `Today’s ${source.toLowerCase()} reminded me to slow down and return to what works.\n\n${cleaned}\n\nThe lesson I’m carrying forward is simple: I do not need to fix the whole day at once. I only need to meet this moment with honesty, gratitude, and willingness.`;
+  return `Today’s ${source.toLowerCase()} reminded me to slow down and come back to ${sourceTone}.\n\n${cleaned}\n\nThe message I’m carrying forward is simple: I do not need to fix the whole day in one go. I only need to meet this moment with honesty, gratitude, and willingness.`;
 };
 
 export default function ContentEngine() {
@@ -140,9 +147,9 @@ export default function ContentEngine() {
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <MessageCircle className="w-4 h-4 module-content" />
-            <p className="text-sm font-semibold">Claude prompt</p>
+            <p className="text-sm font-semibold">Writing prompt</p>
           </div>
-          <Button size="sm" variant="ghost" onClick={() => handleCopy(activePrompt, 'Prompt ready for Claude')}>
+          <Button size="sm" variant="ghost" onClick={() => handleCopy(activePrompt, 'Prompt copied')}>
             <Copy className="w-4 h-4" />
           </Button>
         </div>
