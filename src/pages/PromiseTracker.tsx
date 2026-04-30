@@ -4,6 +4,7 @@ import { Heart, Check, RotateCcw, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { promises as seedPromises } from '@/data/demoData';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 import type { Promise as PromiseT } from '@/types';
 
@@ -15,7 +16,23 @@ export default function PromiseTracker() {
   const [newDue, setNewDue] = useState('');
 
   const setStatus = (id: string, status: PromiseT['status']) => {
-    setItems(items.map(p => (p.id === id ? { ...p, status } : p)));
+    const next = items.map(p => (p.id === id ? { ...p, status } : p));
+    setItems(next);
+    const promise = next.find(p => p.id === id);
+    if (promise) {
+      upsertLifeEvent({
+        id: `promise-${promise.id}`,
+        type: 'promise',
+        sourceId: promise.id,
+        module: 'family',
+        title: promise.promise,
+        date: promise.due,
+        timestamp: Date.now(),
+        note: promise.person,
+        status: promise.status,
+        completed: promise.status === 'done',
+      });
+    }
     if (status === 'done') toast({ title: '✅ Promise kept', description: 'Trust +1.' });
   };
 
@@ -31,6 +48,18 @@ export default function PromiseTracker() {
       module: 'family',
     };
     setItems([p, ...items]);
+    upsertLifeEvent({
+      id: `promise-${p.id}`,
+      type: 'promise',
+      sourceId: p.id,
+      module: 'family',
+      title: p.promise,
+      date: p.due,
+      timestamp: Date.now(),
+      note: p.person,
+      status: p.status,
+      completed: false,
+    });
     setNewPromise(''); setNewPerson(''); setNewDue('');
     setAdding(false);
     toast({ title: '🤝 Promise logged', description: `To ${p.person}` });
