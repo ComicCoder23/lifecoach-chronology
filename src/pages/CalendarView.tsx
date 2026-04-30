@@ -4,6 +4,7 @@ import { Calendar as CalIcon, ChevronLeft, ChevronRight, Plus } from 'lucide-rea
 import { ModuleBadge } from '@/components/ModuleBadge';
 import { Button } from '@/components/ui/button';
 import { appointments, promises, familyContacts } from '@/data/demoData';
+import { useLifeEvents, upsertLifeEvent } from '@/lib/lifeEvents';
 import { format, addDays, startOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
 import { enGB } from 'date-fns/locale';
 
@@ -27,6 +28,7 @@ export default function CalendarView() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<ViewMode>('month');
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const lifeEvents = useLifeEvents();
   const [diaryEntries] = useState<DiaryEntry[]>([
     { date: new Date('2026-04-14'), text: 'Good day overall. Walked 20 mins. Feeling positive about recovery.' },
     { date: new Date('2026-04-15'), text: 'Tough morning but got through launch. Visited Mum — lifted my mood.' },
@@ -50,7 +52,11 @@ export default function CalendarView() {
 
   const displayDays = viewMode === 'month' ? monthDays : days;
 
-  const getEventsForDate = (date: Date) => calendarEvents.filter(e => isSameDay(e.date, date));
+  const busEvents = lifeEvents
+    .filter(e => ['appointment', 'promise'].includes(e.type))
+    .map(e => ({ date: new Date(e.date), title: e.title, module: e.module, type: e.type as 'appointment' | 'promise' }));
+  const allCalendarEvents = [...calendarEvents, ...busEvents];
+  const getEventsForDate = (date: Date) => allCalendarEvents.filter(e => isSameDay(e.date, date));
   const getDiaryForDate = (date: Date) => diaryEntries.find(d => isSameDay(d.date, date));
 
   const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
@@ -128,7 +134,22 @@ export default function CalendarView() {
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">{format(selectedDate, 'EEEE, dd/MM/yyyy', { locale: enGB })}</h2>
-            <Button size="sm" variant="outline"><Plus className="w-3 h-3 mr-1" /> Add</Button>
+            <Button size="sm" variant="outline" onClick={() => {
+              const title = window.prompt('Appointment title or next move?');
+              if (!title?.trim() || !selectedDate) return;
+              const id = crypto.randomUUID();
+              upsertLifeEvent({
+                id: `appointment-${id}`,
+                type: 'appointment',
+                sourceId: id,
+                module: 'health',
+                title: title.trim(),
+                date: format(selectedDate, 'yyyy-MM-dd'),
+                timestamp: selectedDate.getTime(),
+                note: 'Calendar appointment',
+                completed: false,
+              });
+            }}><Plus className="w-3 h-3 mr-1" /> Add</Button>
           </div>
 
           {selectedDiary && (
