@@ -15,6 +15,7 @@ import EvidenceView from "./pages/EvidenceView";
 import ADPVault from "./pages/ADPVault";
 import PromiseTracker from "./pages/PromiseTracker";
 import FamilyView from "./pages/FamilyView";
+import HealthTransformation from "./pages/HealthTransformation";
 import MealCapture from "./pages/MealCapture";
 import DebtTracker from "./pages/DebtTracker";
 import PostMail from "./pages/PostMail";
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/adp-vault" element={<ADPVault />} />
             <Route path="/promises" element={<PromiseTracker />} />
             <Route path="/family" element={<FamilyView />} />
+            <Route path="/health" element={<HealthTransformation />} />
             <Route path="/meals" element={<MealCapture />} />
             <Route path="/debt" element={<DebtTracker />} />
             <Route path="/mail" element={<PostMail />} />
