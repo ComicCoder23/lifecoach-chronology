@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Textarea } from '@/components/ui/textarea';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 
 type ReadingSource = 'Bible verse' | 'AA Big Book passage' | 'Just For Today';
@@ -97,6 +98,29 @@ export default function ContentEngine() {
     };
     setLogs([entry, ...logs]);
     setReadingDone(true);
+    upsertLifeEvent({
+      id: `content-post-${entry.id}`,
+      type: 'content-post',
+      sourceId: entry.id,
+      module: 'content',
+      title: `${entry.source} post`,
+      date: entry.date,
+      timestamp: entry.ts,
+      note: entry.readingPreview,
+      completed: true,
+      metadata: { format: entry.format },
+    });
+    upsertLifeEvent({
+      id: `discipline-${todayKey}-daily-reading`,
+      type: 'discipline',
+      sourceId: `${todayKey}-daily-reading`,
+      module: 'faith',
+      title: 'Daily Reading',
+      date: todayKey,
+      timestamp: Date.now(),
+      completed: true,
+      metadata: { disciplineId: 'daily-reading' },
+    });
     toast({ title: '📱 Post logged', description: 'Daily reading marked done.' });
   };
 
@@ -114,7 +138,23 @@ export default function ContentEngine() {
             <p className="text-xs text-muted-foreground">{format(new Date(), 'EEEE d MMMM')}</p>
           </div>
           <label className="flex items-center gap-2 text-xs font-medium">
-            <Checkbox checked={readingDone} onCheckedChange={(v) => setReadingDone(v === true)} />
+            <Checkbox checked={readingDone} onCheckedChange={(v) => {
+              const done = v === true;
+              setReadingDone(done);
+              if (done) {
+                upsertLifeEvent({
+                  id: `discipline-${todayKey}-daily-reading`,
+                  type: 'discipline',
+                  sourceId: `${todayKey}-daily-reading`,
+                  module: 'faith',
+                  title: 'Daily Reading',
+                  date: todayKey,
+                  timestamp: Date.now(),
+                  completed: true,
+                  metadata: { disciplineId: 'daily-reading' },
+                });
+              }
+            }} />
             Done
           </label>
         </div>

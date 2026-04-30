@@ -6,6 +6,7 @@ import { CompletionDrawer } from '@/components/CompletionDrawer';
 import { disciplines as initialDiscs } from '@/data/demoData';
 import { Discipline } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { format } from 'date-fns';
 
 const timeBlocks = [
@@ -38,6 +39,18 @@ export default function Disciplines() {
   const handleComplete = (d: Discipline) => {
     if (d.id === 'daily-reading') setReadingDone(true);
     setDiscs(prev => prev.map(x => x.id === d.id ? { ...x, completed: true } : x));
+    upsertLifeEvent({
+      id: `discipline-${todayKey}-${d.id}`,
+      type: 'discipline',
+      sourceId: `${todayKey}-${d.id}`,
+      module: d.module,
+      title: d.title,
+      date: todayKey,
+      timestamp: Date.now(),
+      note: d.why,
+      completed: true,
+      metadata: { disciplineId: d.id },
+    });
     setSelected(null);
   };
 

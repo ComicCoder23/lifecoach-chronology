@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { ModuleBadge } from '@/components/ModuleBadge';
 import { CompanionHero } from '@/components/CompanionHero';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useLifeEvents } from '@/lib/lifeEvents';
 import { launchSteps, promises, appointments } from '@/data/demoData';
 import { emotionalStates, type EmotionalState } from '@/data/emotionalStates';
 import type { ModuleType } from '@/types';
@@ -37,32 +37,6 @@ const quickTiles = [
   { icon: Moon, label: 'PM Close', path: '/launch', color: 'bg-module-recovery border-module-recovery module-recovery' },
 ];
 
-interface PromiseEntry {
-  id: string;
-  promise: string;
-  person: string;
-  due: string;
-  status: 'pending' | 'done' | 'overdue';
-}
-
-interface ADPEntry {
-  id: string;
-  title?: string;
-  type?: string;
-  note?: string;
-  date?: string;
-  severity?: number;
-  ts?: number;
-  timestamp?: number;
-}
-
-interface CaptureEntry {
-  id: string;
-  mode: 'journal' | 'idea';
-  text: string;
-  ts: number;
-}
-
 const parseDueDate = (due?: string) => {
   if (!due) return Date.now();
   if (due.toLowerCase() === 'today') return Date.now();
@@ -85,43 +59,24 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [selectedEmotion, setSelectedEmotion] = useState<EmotionalState | null>(null);
   const [showAllEmotions, setShowAllEmotions] = useState(false);
-  const [storedPromises] = useLocalStorage<PromiseEntry[]>('promises', []);
-  const [adpEntries] = useLocalStorage<ADPEntry[]>('adp-entries', []);
-  const [captures] = useLocalStorage<CaptureEntry[]>('captures', []);
+  const lifeEvents = useLifeEvents();
 
   const sobriety = getSobrietyData();
   const completedLaunch = launchSteps.filter(s => s.completed).length;
   const totalLaunch = launchSteps.length;
   const launchPercent = Math.round((completedLaunch / totalLaunch) * 100);
   const momentumScore = 72;
-  const whatMattersNext: WhatMattersItem[] = [
-    ...storedPromises
-      .filter(p => p.status !== 'done')
-      .map(p => ({
-        id: `promise-${p.id}`,
-        label: p.promise,
-        date: `${p.person} · ${p.due || 'Today'}`,
-        sortDate: parseDueDate(p.due),
-        module: 'family' as ModuleType,
-        icon: '💝',
-      })),
-    ...adpEntries.map(e => ({
-      id: `adp-${e.id}`,
-      label: e.title || e.note || 'ADP evidence entry',
-      date: e.date || (e.ts || e.timestamp ? format(e.ts || e.timestamp || Date.now(), 'EEE d MMM') : 'Logged'),
-      sortDate: e.ts || e.timestamp || parseDueDate(e.date),
-      module: 'adp' as ModuleType,
-      icon: '🩺',
-    })),
-    ...captures.map(c => ({
-      id: `capture-${c.id}`,
-      label: c.mode === 'idea' ? c.text : 'Journal reflection',
-      date: format(c.ts, 'EEE d MMM, h:mma'),
-      sortDate: c.ts,
-      module: 'content' as ModuleType,
-      icon: c.mode === 'idea' ? '💡' : '📖',
-    })),
-  ].sort((a, b) => b.sortDate - a.sortDate);
+  const whatMattersNext: WhatMattersItem[] = lifeEvents
+    .filter(e => !e.completed && ['promise', 'appointment', 'adp', 'capture'].includes(e.type))
+    .map(e => ({
+      id: e.id,
+      label: e.title,
+      date: e.note ? `${e.note} · ${e.date}` : e.date,
+      sortDate: parseDueDate(e.date) || e.timestamp,
+      module: e.module,
+      icon: e.type === 'promise' ? '💝' : e.type === 'appointment' ? '📅' : e.type === 'adp' ? '🩺' : '📖',
+    }))
+    .sort((a, b) => b.sortDate - a.sortDate);
 
   const visibleEmotions = showAllEmotions ? emotionalStates : emotionalStates.slice(0, 6);
 

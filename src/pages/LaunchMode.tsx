@@ -6,8 +6,11 @@ import { ModuleBadge } from '@/components/ModuleBadge';
 import { CompletionDrawer } from '@/components/CompletionDrawer';
 import { launchStacks as initialStacks, contentPrompts, type LaunchStack, type StackItem } from '@/data/demoData';
 import { pmRecoveryStack, prayerLibrary, contentChannels } from '@/data/emotionalStates';
+import { useLifeEvents } from '@/lib/lifeEvents';
 
 export default function LaunchMode() {
+  const lifeEvents = useLifeEvents();
+  const completedDisciplineTitles = new Set(lifeEvents.filter(e => e.type === 'discipline' && e.completed).map(e => e.title.toLowerCase()));
   const [stacks, setStacks] = useState<LaunchStack[]>(initialStacks);
   const [expandedStack, setExpandedStack] = useState<string | null>('stack-aa');
   const [drawerItem, setDrawerItem] = useState<{ stackId: string; item: StackItem } | null>(null);
@@ -17,8 +20,12 @@ export default function LaunchMode() {
   const [showChannels, setShowChannels] = useState(false);
   const [pmItems, setPmItems] = useState(pmRecoveryStack.map(i => ({ ...i })));
 
-  const totalItems = stacks.reduce((sum, s) => sum + s.items.length, 0);
-  const completedItems = stacks.reduce((sum, s) => sum + s.items.filter(i => i.completed).length, 0);
+  const syncedStacks = stacks.map(stack => ({
+    ...stack,
+    items: stack.items.map(item => ({ ...item, completed: item.completed || completedDisciplineTitles.has(item.title.toLowerCase()) || (item.title.toLowerCase().includes('daily') && completedDisciplineTitles.has('daily reading')) })),
+  }));
+  const totalItems = syncedStacks.reduce((sum, s) => sum + s.items.length, 0);
+  const completedItems = syncedStacks.reduce((sum, s) => sum + s.items.filter(i => i.completed).length, 0);
   const percent = Math.round((completedItems / totalItems) * 100);
 
   const handleComplete = (stackId: string, itemId: string) => {
@@ -39,7 +46,7 @@ export default function LaunchMode() {
     return { done, total: stack.items.length, percent: Math.round((done / stack.items.length) * 100) };
   };
 
-  const nextIncomplete = stacks.flatMap(s => s.items.map(i => ({ stackId: s.id, item: i }))).find(x => !x.item.completed);
+  const nextIncomplete = syncedStacks.flatMap(s => s.items.map(i => ({ stackId: s.id, item: i }))).find(x => !x.item.completed);
 
   return (
     <div className="max-w-lg mx-auto pb-24">
@@ -79,7 +86,7 @@ export default function LaunchMode() {
 
         {/* Stack cards */}
         <div className="space-y-3">
-          {stacks.map((stack, si) => {
+          {syncedStacks.map((stack, si) => {
             const progress = getStackProgress(stack);
             const isExpanded = expandedStack === stack.id;
             const allDone = progress.done === progress.total;

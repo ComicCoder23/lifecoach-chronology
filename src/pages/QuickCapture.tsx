@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, BookOpen, Lightbulb, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
@@ -27,6 +28,19 @@ export default function QuickCapture() {
       ts: Date.now(),
     };
     setEntries([entry, ...entries]);
+    const tags = Array.from(new Set((entry.text.match(/#[\w-]+|\bmemory\b/gi) || []).map(tag => tag.replace('#', '').toLowerCase())));
+    upsertLifeEvent({
+      id: `capture-${entry.id}`,
+      type: 'capture',
+      sourceId: entry.id,
+      module: 'content',
+      title: entry.mode === 'idea' ? 'Idea captured' : 'Journal reflection',
+      date: format(entry.ts, 'yyyy-MM-dd'),
+      timestamp: entry.ts,
+      note: entry.text,
+      tags,
+      metadata: { mode: entry.mode },
+    });
     setText('');
     toast({ title: mode === 'journal' ? '📖 Journal saved' : '💡 Idea captured', description: 'Back to flow.' });
   };

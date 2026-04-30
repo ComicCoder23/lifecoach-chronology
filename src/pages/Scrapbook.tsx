@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
 import { COMPANION_SCENES } from '@/lib/themes';
+import { useLifeEvents } from '@/lib/lifeEvents';
+import { format } from 'date-fns';
 
 const pages = [
   {
@@ -18,6 +20,17 @@ const pages = [
 ];
 
 export default function Scrapbook() {
+  const memoryEvents = useLifeEvents().filter(e => e.type === 'capture' && e.tags?.includes('memory'));
+  const scrapbookPages = [
+    ...memoryEvents.map(e => ({
+      title: format(e.timestamp, 'EEE d MMM'),
+      summary: e.note || e.title,
+      highlight: 'Memory captured',
+      scene: 'forest' as const,
+    })),
+    ...pages,
+  ];
+
   return (
     <div className="min-h-screen bg-background pb-24">
       <div className="max-w-lg mx-auto px-5 pt-6 pb-4">
@@ -33,7 +46,7 @@ export default function Scrapbook() {
       </div>
 
       <div className="max-w-lg mx-auto px-5 space-y-7">
-        {pages.map((page, i) => (
+        {scrapbookPages.map((page, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 10 }}
