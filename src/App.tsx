@@ -19,7 +19,7 @@ import MealCapture from "./pages/MealCapture";
 import DebtTracker from "./pages/DebtTracker";
 import PostMail from "./pages/PostMail";
 import LifeAdmin from "./pages/LifeAdmin";
-import WrapBook from "./pages/WrapBook";
+import Scrapbook from "./pages/Scrapbook";
 import WeeklyReport from "./pages/WeeklyReport";
 import MoreMenu from "./pages/MoreMenu";
 import PositiveFlow from "./pages/PositiveFlow";
@@ -53,7 +53,7 @@ const App = () => (
             <Route path="/debt" element={<DebtTracker />} />
             <Route path="/mail" element={<PostMail />} />
             <Route path="/admin" element={<LifeAdmin />} />
-            <Route path="/wrap" element={<WrapBook />} />
+            <Route path="/scrapbook" element={<Scrapbook />} />
             <Route path="/weekly" element={<WeeklyReport />} />
             <Route path="/flow" element={<PositiveFlow />} />
             <Route path="/content" element={<ContentEngine />} />

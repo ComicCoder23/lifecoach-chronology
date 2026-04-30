@@ -14,7 +14,7 @@ const moreItems = [
   { path: '/debt', icon: CreditCard, label: 'Debt & Credit Builder', color: 'module-debt' },
   { path: '/mail', icon: Mail, label: 'Post & Mail Triage', color: 'module-mail' },
   { path: '/admin', icon: FileText, label: 'Life Admin', color: '' },
-  { path: '/wrap', icon: BookOpen, label: 'Wrap Book', color: 'module-faith' },
+  { path: '/scrapbook', icon: BookOpen, label: 'Scrapbook', color: 'module-faith' },
   { path: '/weekly', icon: TrendingUp, label: 'Weekly Evolution', color: '' },
 ];
 

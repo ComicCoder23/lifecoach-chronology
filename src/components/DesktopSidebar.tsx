@@ -19,7 +19,7 @@ const navItems = [
   { path: '/disciplines', icon: CheckSquare, label: 'Disciplines' },
   { path: '/timeline', icon: Clock, label: 'Timeline' },
   { path: '/admin', icon: FileText, label: 'Life Admin' },
-  { path: '/wrap', icon: BookOpen, label: 'Wrap Book' },
+  { path: '/scrapbook', icon: BookOpen, label: 'Scrapbook' },
   { path: '/weekly', icon: TrendingUp, label: 'Weekly Evolution' },
 ];
 
