@@ -4,6 +4,7 @@ import { Shield, Camera, Activity, Brain, Footprints, ArrowUpDown, Bath, Downloa
 import { Button } from '@/components/ui/button';
 import { adpEntries as seedEntries, type ADPEntry } from '@/data/demoData';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useLifeEvents, upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
@@ -25,6 +26,7 @@ const entryTypes = filterTypes.filter(t => t !== 'all') as ADPEntry['type'][];
 export default function ADPVault() {
   const [filter, setFilter] = useState<string>('all');
   const [items, setItems] = useLocalStorage<ADPEntry[]>('adp-entries', seedEntries);
+  const appointmentEvents = useLifeEvents().filter(e => e.type === 'appointment');
   const [adding, setAdding] = useState(false);
   const [draft, setDraft] = useState<{ title: string; type: ADPEntry['type']; severity: number; note: string; photoSlot: boolean }>({
     title: '', type: 'flare-day', severity: 5, note: '', photoSlot: false,
@@ -47,6 +49,17 @@ export default function ADPVault() {
       exportReady: true,
     };
     setItems([entry, ...items]);
+    upsertLifeEvent({
+      id: `adp-${entry.id}`,
+      type: 'adp',
+      sourceId: entry.id,
+      module: 'adp',
+      title: entry.title,
+      date: entry.date,
+      timestamp: Date.now(),
+      note: entry.note,
+      metadata: { severity: entry.severity, evidenceType: entry.type },
+    });
     setDraft({ title: '', type: 'flare-day', severity: 5, note: '', photoSlot: false });
     setAdding(false);
     toast({ title: '🛡 Evidence logged', description: `${typeConfig[entry.type]?.label} · severity ${entry.severity}/10` });
@@ -140,6 +153,18 @@ export default function ADPVault() {
       </div>
 
       <div className="space-y-2">
+        {filter === 'all' && appointmentEvents.map(event => (
+          <motion.div key={event.id} layout initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl border p-4">
+            <div className="flex items-start justify-between mb-1.5">
+              <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4 module-health" />
+                <p className="text-sm font-medium">{event.title}</p>
+              </div>
+              <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-module-health module-health">Appointment</span>
+            </div>
+            <p className="text-xs text-muted-foreground">{event.date} · {event.note || 'Calendar appointment'}</p>
+          </motion.div>
+        ))}
         <AnimatePresence>
           {entries.map((entry, i) => {
             const config = typeConfig[entry.type] || { label: entry.type, icon: Activity, color: '' };
