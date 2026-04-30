@@ -187,7 +187,7 @@ export default function LaunchMode() {
                       <span className="text-lg">{ch.emoji}</span>
                       <div className="flex-1">
                         <p className="text-sm font-medium">{ch.label}</p>
-                        <p className="text-xs text-muted-foreground">{ch.platform}</p>
+                        <p className="text-xs text-muted-foreground">{'description' in ch ? ch.description : ch.platform}</p>
                       </div>
                       <ChevronRight className="w-4 h-4 text-muted-foreground" />
                     </div>

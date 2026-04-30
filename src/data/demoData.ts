@@ -73,7 +73,7 @@ export const launchStacks: LaunchStack[] = [
     priority: 4,
     icon: '📱',
     items: [
-      { id: 'co1', title: 'Morning Inspiration WhatsApp', completed: false, contentTrigger: true },
+      { id: 'co1', title: 'CSD — Choosing Sobriety Daily WhatsApp', completed: false, contentTrigger: true },
       { id: 'co2', title: 'Jesus I\'m Learning Facebook', completed: false, contentTrigger: true },
       { id: 'co3', title: 'Pick Post Topic', completed: false, contentTrigger: true },
     ],
@@ -113,7 +113,7 @@ export const launchSteps: LaunchStep[] = [
   { id: 'l6', order: 6, title: 'Brush Teeth', module: 'health', completed: false, isRescueStep: false },
   { id: 'l7', order: 7, title: 'Coffee + Collagen + Creatine Ritual', module: 'health', completed: true, isRescueStep: true },
   { id: 'l8', order: 8, title: 'NG Stack + Meds', module: 'health', completed: false, isRescueStep: false },
-  { id: 'l9', order: 9, title: 'Morning Inspiration WhatsApp + Jesus I\'m Learning Facebook', module: 'content', completed: false, isRescueStep: true },
+  { id: 'l9', order: 9, title: 'CSD — Choosing Sobriety Daily WhatsApp + Jesus I\'m Learning Facebook', module: 'content', completed: false, isRescueStep: true },
   { id: 'l10', order: 10, title: 'Open Today Command Centre', module: 'recovery', completed: false, isRescueStep: true },
   { id: 'l11', order: 11, title: 'Faith Reset + Content Seed', module: 'faith', completed: false, isRescueStep: false },
 ];

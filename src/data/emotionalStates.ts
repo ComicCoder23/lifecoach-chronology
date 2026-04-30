@@ -117,13 +117,12 @@ export const emotionalStates: EmotionalState[] = [
 ];
 
 export const contentChannels = [
-  { id: 'morning-inspiration', label: 'Morning Inspiration', platform: 'WhatsApp', emoji: '☀️' },
+  { id: 'morning-inspiration', label: 'CSD — Choosing Sobriety Daily', platform: 'WhatsApp', emoji: '☀️', description: 'Daily sobriety reflections, including recovery stories and morning encouragement' },
   { id: 'jesus-learning', label: "Jesus I'm Learning", platform: 'Facebook', emoji: '✝️' },
   { id: 'whos-funny', label: "Who's Funny Anyway", platform: 'Social', emoji: '😂' },
   { id: 'ttm-business', label: 'TTM / Business Proof', platform: 'LinkedIn', emoji: '💼' },
-  { id: 'recovery-stories', label: 'Recovery Stories', platform: 'Facebook', emoji: '🟢' },
   { id: 'family-memories', label: 'Family Memory Content', platform: 'Private', emoji: '👨‍👩‍👧' },
-  { id: 'health-transform', label: 'Health Transformation', platform: 'Instagram', emoji: '💪' },
+  { id: 'health-transform', label: 'Health Transformation', platform: 'Instagram', emoji: '💪', description: 'Weight loss and fitness journey — ties into health tracking' },
 ];
 
 export const prayerLibrary = [
