@@ -1,4 +1,4 @@
-import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Shield, Heart, Utensils, Sparkles, Link2, Brain } from 'lucide-react';
+import { Home, Rocket, CheckSquare, Clock, Zap, Calendar, Users, CreditCard, Mail, FileText, BookOpen, TrendingUp, Shield, Heart, Utensils, Sparkles, Link2, Brain, HeartPulse } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const navItems = [
@@ -13,6 +13,7 @@ const navItems = [
   { path: '/capture', icon: Zap, label: 'Quick Capture' },
   { path: '/family', icon: Users, label: 'Family' },
   { path: '/promises', icon: Heart, label: 'Promise Tracker' },
+  { path: '/health', icon: HeartPulse, label: 'Health Transformation' },
   { path: '/meals', icon: Utensils, label: 'Meals & SW Coach' },
   { path: '/debt', icon: CreditCard, label: 'Debt & Credit Builder' },
   { path: '/mail', icon: Mail, label: 'Post & Mail Triage' },
