@@ -27,6 +27,7 @@ import PositiveFlow from "./pages/PositiveFlow";
 import ContentEngine from "./pages/ContentEngine";
 import TrustedSources from "./pages/TrustedSources";
 import MomentumRescue from "./pages/MomentumRescue";
+import IntegrationsHub from "./pages/IntegrationsHub";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -61,6 +62,7 @@ const App = () => (
             <Route path="/content" element={<ContentEngine />} />
             <Route path="/sources" element={<TrustedSources />} />
             <Route path="/rescue" element={<MomentumRescue />} />
+            <Route path="/integrations" element={<IntegrationsHub />} />
             <Route path="/more" element={<MoreMenu />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
