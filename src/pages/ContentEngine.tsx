@@ -9,74 +9,67 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 
-type ReadingSource = 'Bible verse' | 'AA Big Book passage' | 'Just For Today';
-type PostFormat = 'Instagram caption' | 'WhatsApp message' | 'Short reflection';
+type ReadingSource = 'Bible verse' | 'AA Big Book' | 'Just For Today';
+type Channel = 'CSD' | "Who's Funny Anyway" | "Jesus I'm Learning" | 'TTM' | 'Health Transformation';
 
 interface ContentPostLog {
   id: string;
   date: string;
   source: ReadingSource;
-  format: PostFormat;
+  channel: Channel;
   post: string;
   readingPreview: string;
   ts: number;
 }
 
-const sources: ReadingSource[] = ['Bible verse', 'AA Big Book passage', 'Just For Today'];
-const formats: PostFormat[] = ['Instagram caption', 'WhatsApp message', 'Short reflection'];
+const sources: ReadingSource[] = ['Bible verse', 'AA Big Book', 'Just For Today'];
+const channels: Channel[] = ['CSD', "Who's Funny Anyway", "Jesus I'm Learning", 'TTM', 'Health Transformation'];
+
+const channelMeta: Record<Channel, { tagline: string; hashtags: string }> = {
+  'CSD': { tagline: 'Choosing Sobriety Daily', hashtags: '#ChoosingSobrietyDaily #Recovery #OneDayAtATime #ScotlandRecovery' },
+  "Who's Funny Anyway": { tagline: 'Finding the funny in the mess', hashtags: '#WhosFunnyAnyway #RecoveryHumour #SoberLife' },
+  "Jesus I'm Learning": { tagline: 'Faith, slowly and honestly', hashtags: '#JesusImLearning #Faith #Grace #StillLearning' },
+  'TTM': { tagline: 'Tools that move things forward', hashtags: '#TTM #Discipline #ResultsOverNoise' },
+  'Health Transformation': { tagline: '31 stone and rebuilding', hashtags: '#HealthTransformation #WeightLoss #OneStoneAtATime' },
+};
 
 const todayKey = format(new Date(), 'yyyy-MM-dd');
 
-const createDraft = (source: ReadingSource, reading: string, formatType: PostFormat) => {
+const buildPost = (channel: Channel, source: ReadingSource, reading: string): string => {
   const cleaned = reading.trim();
   if (!cleaned) return '';
 
-  // TODO: Future API integration can replace this local template layer when a secure backend key is available.
-  const sourceTone = source === 'Bible verse'
-    ? 'faith, surrender, and hope'
-    : source === 'AA Big Book passage'
-      ? 'honesty, willingness, and the next right action'
-      : 'staying present, clean, and connected today';
-
-  if (formatType === 'Instagram caption') {
-    return `Morning reflection ☀️\n\n${cleaned}\n\nWhat I’m taking from this today is ${sourceTone}. Recovery keeps teaching me that I do not need to solve everything at once — I just need to stay honest, stay close to what keeps me well, and take the next right step.\n\nToday I’m choosing steadiness over chaos, gratitude over fear, and progress over perfection.\n\n#Recovery #OneDayAtATime #MorningReflection #ScotlandRecovery`;
+  // TODO: Replace local templates with secure backend Claude API call when key is available.
+  switch (channel) {
+    case 'CSD':
+      return `Choosing Sobriety Daily ☀️\n\nFrom today's ${source.toLowerCase()}:\n"${cleaned}"\n\nThis is the bit I'm taking with me — I don't have to fix the whole road, just the next honest step. Recovery keeps reminding me that steadiness beats chaos, and showing up beats hiding.\n\nOne day. This day. Sober.\n\n${channelMeta[channel].hashtags}`;
+    case "Who's Funny Anyway":
+      return `Right, so today's ${source.toLowerCase()} said:\n"${cleaned}"\n\nMeanwhile I'm sitting here in trackies, on my third cup of tea, pretending I've got my life together. 😅 Recovery is mostly admin and snacks, let's be honest. But I'm clean, I'm laughing, and that'll do for a Tuesday.\n\n${channelMeta[channel].hashtags}`;
+    case "Jesus I'm Learning":
+      return `Still learning. 🙏\n\n"${cleaned}"\n— ${source}\n\nI don't have this figured out. Most days I'm just trying to listen a wee bit more than I speak, and trust that grace is doing the heavy lifting. Faith for me right now is small, slow and honest — and that's enough.\n\n${channelMeta[channel].hashtags}`;
+    case 'TTM':
+      return `Today's input → today's action.\n\nSource: ${source}\n"${cleaned}"\n\nThe takeaway: clarity over noise, reps over hype, and one disciplined decision repeated until it compounds. That's the whole game.\n\n${channelMeta[channel].hashtags}`;
+    case 'Health Transformation':
+      return `Started this journey at 31 stone. Today I'm still showing up. 💪\n\nFrom today's ${source.toLowerCase()}:\n"${cleaned}"\n\nWhat it's teaching me — progress isn't a straight line, it's a repeated honest choice. Weigh-in, walk, water, repeat. Every stone lost is proof that the slow way works.\n\n${channelMeta[channel].hashtags}`;
   }
-
-  if (formatType === 'WhatsApp message') {
-    return `Morning thought ☀️\n\n${cleaned}\n\nThis landed with me today around ${sourceTone}. Keeping it simple: stay honest, stay connected, and do the next right thing. Hope this brings a wee bit of peace and strength into your morning.`;
-  }
-
-  return `Today’s ${source.toLowerCase()} reminded me to slow down and come back to ${sourceTone}.\n\n${cleaned}\n\nThe message I’m carrying forward is simple: I do not need to fix the whole day in one go. I only need to meet this moment with honesty, gratitude, and willingness.`;
 };
 
 export default function ContentEngine() {
   const [source, setSource] = useState<ReadingSource>('Bible verse');
   const [reading, setReading] = useState('');
-  const [selectedFormat, setSelectedFormat] = useState<PostFormat>('Instagram caption');
-  const [customPrompt, setCustomPrompt] = useState('');
-  const [drafts, setDrafts] = useState<Record<PostFormat, string>>({
-    'Instagram caption': '',
-    'WhatsApp message': '',
-    'Short reflection': '',
-  });
+  const [channel, setChannel] = useState<Channel>('CSD');
+  const [post, setPost] = useState('');
   const [logs, setLogs] = useLocalStorage<ContentPostLog[]>('contentEngine.posts', []);
   const [readingDone, setReadingDone] = useLocalStorage<boolean>(`discipline.dailyReading.${todayKey}`, false);
 
-  const claudePrompt = useMemo(() => {
-    return `Turn this ${source} into a warm, honest morning post for Alan. Keep it simple, recovery-aware, faith-sensitive, and shareable. Give me three options: Instagram caption, WhatsApp message, and short reflection.\n\nReading:\n${reading.trim() || '[paste reading here]'}`;
-  }, [reading, source]);
+  const prompt = useMemo(() => {
+    return `Channel: ${channel} (${channelMeta[channel].tagline})\nSource: ${source}\n\nReading:\n${reading.trim() || '[paste reading here]'}`;
+  }, [channel, source, reading]);
 
-  const activePrompt = customPrompt || claudePrompt;
-  const activePost = drafts[selectedFormat];
-
-  const handleCreateDrafts = () => {
+  const handleGenerate = () => {
     if (!reading.trim()) return;
-    setDrafts({
-      'Instagram caption': createDraft(source, reading, 'Instagram caption'),
-      'WhatsApp message': createDraft(source, reading, 'WhatsApp message'),
-      'Short reflection': createDraft(source, reading, 'Short reflection'),
-    });
-    toast({ title: '✨ Drafts prepared', description: 'Pick the format that fits today.' });
+    setPost(buildPost(channel, source, reading));
+    toast({ title: '✨ Draft ready', description: `${channel} tone applied.` });
   };
 
   const handleCopy = async (text: string, label: string) => {
@@ -86,13 +79,13 @@ export default function ContentEngine() {
   };
 
   const handleLogPost = () => {
-    if (!activePost.trim()) return;
+    if (!post.trim()) return;
     const entry: ContentPostLog = {
       id: crypto.randomUUID(),
       date: todayKey,
       source,
-      format: selectedFormat,
-      post: activePost,
+      channel,
+      post,
       readingPreview: reading.trim().slice(0, 120),
       ts: Date.now(),
     };
@@ -103,12 +96,12 @@ export default function ContentEngine() {
       type: 'content-post',
       sourceId: entry.id,
       module: 'content',
-      title: `${entry.source} post`,
+      title: `${entry.channel} · ${entry.source}`,
       date: entry.date,
       timestamp: entry.ts,
       note: entry.readingPreview,
       completed: true,
-      metadata: { format: entry.format },
+      metadata: { channel: entry.channel, source: entry.source },
     });
     upsertLifeEvent({
       id: `discipline-${todayKey}-daily-reading`,
@@ -128,13 +121,17 @@ export default function ContentEngine() {
     <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
       <div className="flex items-center gap-2">
         <Sparkles className="w-5 h-5 module-content" />
-        <h1 className="text-xl font-bold">Content Engine</h1>
+        <div>
+          <h1 className="text-xl font-bold leading-tight">CSD — Choosing Sobriety Daily</h1>
+          <p className="text-xs text-muted-foreground">Morning reading → channel post → discipline done</p>
+        </div>
       </div>
 
+      {/* Step 1: source + reading */}
       <motion.div layout className="bg-card rounded-xl border p-4 space-y-3">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-sm font-semibold">Daily reading</p>
+            <p className="text-sm font-semibold">Step 1 · Daily reading</p>
             <p className="text-xs text-muted-foreground">{format(new Date(), 'EEEE d MMMM')}</p>
           </div>
           <label className="flex items-center gap-2 text-xs font-medium">
@@ -175,50 +172,61 @@ export default function ContentEngine() {
           value={reading}
           onChange={(e) => setReading(e.target.value)}
           placeholder="Type or paste today's reading here..."
-          className="min-h-36 resize-none"
+          className="min-h-32 resize-none"
         />
-
-        <Button onClick={handleCreateDrafts} disabled={!reading.trim()} className="w-full bg-momentum hover:bg-momentum/90 text-primary-foreground">
-          <Sparkles className="w-4 h-4" /> Create post drafts
-        </Button>
       </motion.div>
 
+      {/* Step 2: channel */}
+      <div className="bg-card rounded-xl border p-4 space-y-3">
+        <div>
+          <p className="text-sm font-semibold">Step 2 · Choose channel</p>
+          <p className="text-xs text-muted-foreground">{channelMeta[channel].tagline}</p>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {channels.map(c => (
+            <button
+              key={c}
+              onClick={() => setChannel(c)}
+              className={`rounded-xl border px-2 py-2 text-[11px] font-semibold transition-colors text-left ${channel === c ? 'bg-module-content border-module-content module-content' : 'bg-background text-muted-foreground'}`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Step 3: generate */}
       <div className="bg-card rounded-xl border p-4 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <MessageCircle className="w-4 h-4 module-content" />
-            <p className="text-sm font-semibold">Writing prompt</p>
+            <p className="text-sm font-semibold">Step 3 · Generate</p>
           </div>
-          <Button size="sm" variant="ghost" onClick={() => handleCopy(activePrompt, 'Prompt copied')}>
+          <Button size="sm" variant="ghost" onClick={() => handleCopy(prompt, 'Prompt copied')}>
             <Copy className="w-4 h-4" />
           </Button>
         </div>
-        <Textarea value={activePrompt} onChange={(e) => setCustomPrompt(e.target.value)} className="min-h-28 resize-none text-xs" />
+        <Textarea value={prompt} readOnly className="min-h-24 resize-none text-xs bg-muted/40" />
+        <Button onClick={handleGenerate} disabled={!reading.trim()} className="w-full bg-momentum hover:bg-momentum/90 text-primary-foreground">
+          <Sparkles className="w-4 h-4" /> Generate {channel} post
+        </Button>
       </div>
 
+      {/* Step 4: result */}
       <AnimatePresence>
-        {activePost && (
+        {post && (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} className="bg-card rounded-xl border p-4 space-y-3">
-            <div className="grid grid-cols-3 gap-2">
-              {formats.map(formatType => (
-                <button
-                  key={formatType}
-                  onClick={() => setSelectedFormat(formatType)}
-                  className={`rounded-xl border px-2 py-2 text-[11px] font-semibold transition-colors ${selectedFormat === formatType ? 'bg-module-content border-module-content module-content' : 'bg-background text-muted-foreground'}`}
-                >
-                  {formatType.replace(' ', '\n')}
-                </button>
-              ))}
+            <div>
+              <p className="text-sm font-semibold">Step 4 · Copy & post</p>
+              <p className="text-xs text-muted-foreground">{channel}</p>
             </div>
-
-            <Textarea value={activePost} onChange={(e) => setDrafts({ ...drafts, [selectedFormat]: e.target.value })} className="min-h-48 resize-none" />
-
+            <Textarea value={post} onChange={(e) => setPost(e.target.value)} className="min-h-48 resize-none" />
             <div className="grid grid-cols-2 gap-2">
-              <Button variant="outline" onClick={() => handleCopy(activePost, selectedFormat)}>
+              <Button variant="outline" onClick={() => handleCopy(post, channel)}>
                 <Copy className="w-4 h-4" /> Copy
               </Button>
               <Button onClick={handleLogPost}>
-                <Check className="w-4 h-4" /> Log done
+                <Check className="w-4 h-4" /> Mark posted
               </Button>
             </div>
           </motion.div>
@@ -234,12 +242,12 @@ export default function ContentEngine() {
           <div key={log.id} className="bg-card rounded-xl border p-3">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="text-sm font-medium">{log.source}</p>
-                <p className="text-xs text-muted-foreground">{format(log.ts, 'EEE d MMM')} · {log.format}</p>
+                <p className="text-sm font-medium">{log.channel}</p>
+                <p className="text-xs text-muted-foreground">{format(log.ts, 'EEE d MMM')} · {log.source}</p>
               </div>
-              <span className="text-[10px] bg-module-content module-content px-2 py-1 rounded-full">Logged</span>
+              <span className="text-[10px] bg-module-content module-content px-2 py-1 rounded-full">Posted</span>
             </div>
-            <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{log.readingPreview}</p>
+            <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{log.post.slice(0, 140)}</p>
           </div>
         ))}
       </div>
