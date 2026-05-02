@@ -22,7 +22,7 @@ const TrendIcon = ({ t }: { t: string }) => {
 export default function WeeklyReport() {
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero scene="water" imageOpacity={0.5} className="px-5 pt-6 pb-8 mb-5">
+      <CompanionHero scene="loch" imageOpacity={0.5} className="px-5 pt-6 pb-8 mb-5">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center gap-2 mb-1">
             <TrendingUp className="w-5 h-5 module-health" />

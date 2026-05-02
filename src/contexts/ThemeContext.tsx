@@ -10,7 +10,7 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>('sunrise');
+  const [mode, setModeState] = useState<ThemeMode>('morning');
 
   useEffect(() => {
     setModeState(getStoredTheme());
