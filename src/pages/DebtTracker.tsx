@@ -1,16 +1,15 @@
 import { motion } from 'framer-motion';
 import { CreditCard, TrendingUp } from 'lucide-react';
 import { debtItems } from '@/data/demoData';
+import { CompanionHero } from '@/components/CompanionHero';
 
 export default function DebtTracker() {
   const totalDebt = debtItems.reduce((sum, d) => sum + d.balance, 0);
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
-      <div className="flex items-center gap-2">
-        <CreditCard className="w-5 h-5 module-debt" />
-        <h1 className="text-xl font-bold">Debt & Credit</h1>
-      </div>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="debt" title="Debt & Credit" subtitle="🌊 Climbing the ladder · steady" className="mb-4" />
+      <div className="px-4 space-y-4">
       <p className="text-sm text-muted-foreground">Climbing the ladder, not drowning in shame.</p>
 
       <div className="bg-card rounded-xl border p-4">
@@ -39,6 +38,7 @@ export default function DebtTracker() {
             {d.paymentPlan && <p className="text-xs text-momentum mt-1">Plan: {d.paymentPlan}</p>}
           </motion.div>
         ))}
+      </div>
       </div>
     </div>
   );

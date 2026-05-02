@@ -7,6 +7,7 @@ import { CompletionDrawer } from '@/components/CompletionDrawer';
 import { launchStacks as initialStacks, contentPrompts, type LaunchStack, type StackItem } from '@/data/demoData';
 import { pmRecoveryStack, prayerLibrary, contentChannels } from '@/data/emotionalStates';
 import { useLifeEvents } from '@/lib/lifeEvents';
+import { CompanionHero } from '@/components/CompanionHero';
 
 export default function LaunchMode() {
   const lifeEvents = useLifeEvents();
@@ -50,18 +51,8 @@ export default function LaunchMode() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      {/* Hero */}
-      <div className="hero-gradient px-5 pt-6 pb-6 rounded-b-3xl mb-5">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="flex items-center gap-2 mb-1">
-            <Rocket className="w-5 h-5 module-recovery" />
-            <h1 className="text-2xl font-bold">Launch Mode</h1>
-          </div>
-          <p className="text-sm text-muted-foreground">Your morning stacks — grouped by source of truth</p>
-        </motion.div>
-
-        {/* Progress */}
-        <div className="mt-4 bg-card/80 backdrop-blur-sm rounded-2xl border p-4">
+      <CompanionHero module="launch" title="Launch Mode" subtitle="🚀 Morning stacks · grounded start" className="px-5 pt-2 pb-6 mb-5">
+        <div className="px-5 mt-4 bg-card/80 backdrop-blur-sm rounded-2xl border p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium">{completedItems}/{totalItems} complete</span>
             <span className="text-sm font-bold text-momentum">{percent}%</span>
@@ -70,7 +61,7 @@ export default function LaunchMode() {
             <motion.div className="bg-momentum h-3 rounded-full" initial={{ width: 0 }} animate={{ width: `${percent}%` }} transition={{ duration: 0.5 }} />
           </div>
         </div>
-      </div>
+      </CompanionHero>
 
       <div className="px-5 space-y-4">
         {/* Start / Continue */}

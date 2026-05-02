@@ -7,6 +7,7 @@ import type { MealEntry } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { CompanionHero } from '@/components/CompanionHero';
 
 const alignBadge = (a: string) => {
   if (a === 'on-plan') return 'bg-momentum/10 text-momentum';
@@ -55,12 +56,9 @@ export default function MealCapture() {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <div className="flex items-center gap-2">
-        <BookOpen className="w-5 h-5 module-health" />
-        <h1 className="text-xl font-bold">Meals & SW Coach</h1>
-      </div>
-      <p className="text-sm text-muted-foreground">Slimming World aligned meal logging + daily suggestions</p>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="meals" title="Meals & SW Coach" subtitle="🌿 Slimming World · daily fuel" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       <Button onClick={() => setAdding(!adding)} className="w-full bg-momentum hover:bg-momentum/90 text-primary-foreground">
         <Plus className="w-4 h-4 mr-1" /> Log a meal
@@ -176,6 +174,7 @@ export default function MealCapture() {
             </motion.div>
           ))}
         </AnimatePresence>
+      </div>
       </div>
     </div>
   );

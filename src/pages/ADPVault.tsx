@@ -7,6 +7,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useLifeEvents, upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { CompanionHero } from '@/components/CompanionHero';
 
 const typeConfig: Record<string, { label: string; icon: any; color: string }> = {
   'flare-day': { label: 'Flare Day', icon: Activity, color: 'text-priority-critical' },
@@ -81,12 +82,9 @@ export default function ADPVault() {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <div className="flex items-center gap-2">
-        <Shield className="w-5 h-5 module-adp" />
-        <h1 className="text-xl font-bold">ADP Evidence Vault</h1>
-      </div>
-      <p className="text-sm text-muted-foreground">Your daily living evidence, export-ready for ADP review</p>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="adp" title="ADP Evidence Vault" subtitle="🛡️ Daily living · export-ready" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-card rounded-xl border p-3 text-center">
@@ -199,6 +197,7 @@ export default function ADPVault() {
             );
           })}
         </AnimatePresence>
+      </div>
       </div>
     </div>
   );

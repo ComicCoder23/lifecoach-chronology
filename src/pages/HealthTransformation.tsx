@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
+import { CompanionHero } from '@/components/CompanionHero';
 
 const START_WEIGHT = 31;
 const todayKey = format(new Date(), 'yyyy-MM-dd');
@@ -72,16 +73,8 @@ export default function HealthTransformation() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <div className="hero-gradient px-5 pt-6 pb-6 rounded-b-3xl mb-5">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="flex items-center gap-2 mb-1">
-            <HeartPulse className="w-5 h-5 module-health" />
-            <h1 className="text-2xl font-bold">Health Transformation</h1>
-          </div>
-          <p className="text-sm text-muted-foreground">Steady weight loss, stronger habits, kinder self-talk.</p>
-        </motion.div>
-
-        <div className="mt-4 bg-card/80 backdrop-blur-sm rounded-2xl border p-4">
+      <CompanionHero module="health" title="Health Transformation" subtitle="🏔️ Steady journey · stronger habits" className="px-5 pt-2 pb-6 mb-5">
+        <div className="px-5 mt-4 bg-card/80 backdrop-blur-sm rounded-2xl border p-4">
           <div className="flex items-end justify-between gap-3 mb-3">
             <div>
               <p className="text-xs text-muted-foreground">Stones lost</p>
@@ -94,7 +87,7 @@ export default function HealthTransformation() {
           </div>
           <p className="text-xs text-muted-foreground mt-2">{progress}% of the journey to goal — one good week at a time.</p>
         </div>
-      </div>
+      </CompanionHero>
 
       <div className="px-5 space-y-4">
         <div className="grid grid-cols-2 gap-3">

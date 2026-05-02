@@ -6,6 +6,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { CompanionHero } from '@/components/CompanionHero';
 
 interface CaptureEntry {
   id: string;
@@ -50,11 +51,9 @@ export default function QuickCapture() {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <div className="flex items-center gap-2">
-        <Zap className="w-5 h-5 module-content" />
-        <h1 className="text-xl font-bold">Quick Capture</h1>
-      </div>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="capture" title="Quick Capture" subtitle="🌌 Open sky · land the thought" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       <div className="flex gap-2">
         <Button variant={mode === 'journal' ? 'default' : 'outline'} size="sm" onClick={() => setMode('journal')}>
@@ -116,6 +115,7 @@ export default function QuickCapture() {
           </AnimatePresence>
         </div>
       )}
+      </div>
     </div>
   );
 }
