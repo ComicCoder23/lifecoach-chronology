@@ -1,15 +1,13 @@
 import { motion } from 'framer-motion';
 import { Users, Phone, MessageCircle, Gift, Calendar, Sparkles } from 'lucide-react';
 import { familyContacts, promises } from '@/data/demoData';
+import { CompanionHero } from '@/components/CompanionHero';
 
 export default function FamilyView() {
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <div className="flex items-center gap-2">
-        <Users className="w-5 h-5 module-family" />
-        <h1 className="text-xl font-bold">Family</h1>
-      </div>
-      <p className="text-sm text-muted-foreground">Stay connected. Follow through. Show up.</p>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="family" title="Family" subtitle="💛 Stay connected · show up" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       <div className="space-y-3">
         {familyContacts.map((fc, i) => {
@@ -78,6 +76,7 @@ export default function FamilyView() {
             </motion.div>
           );
         })}
+      </div>
       </div>
     </div>
   );
