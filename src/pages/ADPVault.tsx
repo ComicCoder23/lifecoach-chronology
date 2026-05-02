@@ -198,6 +198,7 @@ export default function ADPVault() {
           })}
         </AnimatePresence>
       </div>
+      </div>
     </div>
   );
 }
