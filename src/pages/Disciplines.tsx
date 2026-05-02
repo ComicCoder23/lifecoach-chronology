@@ -8,6 +8,7 @@ import { Discipline } from '@/types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { format } from 'date-fns';
+import { CompanionHero } from '@/components/CompanionHero';
 
 const timeBlocks = [
   { key: 'am', label: '🌅 AM' },
@@ -55,11 +56,9 @@ export default function Disciplines() {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
-      <div className="flex items-center gap-2">
-        <CheckSquare className="w-5 h-5" />
-        <h1 className="text-xl font-bold">Disciplines</h1>
-      </div>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="disciplines" title="Disciplines" subtitle="🌅 Daily structure · steady wins" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       {timeBlocks.map(block => {
         const items = displayDiscs.filter(d => d.timeBlock === block.key);
@@ -106,6 +105,7 @@ export default function Disciplines() {
         onClose={() => setSelected(null)}
         onComplete={() => selected && handleComplete(selected)}
       />
+      </div>
     </div>
   );
 }
