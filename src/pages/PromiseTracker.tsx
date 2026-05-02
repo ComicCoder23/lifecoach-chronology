@@ -7,6 +7,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
 import type { Promise as PromiseT } from '@/types';
+import { CompanionHero } from '@/components/CompanionHero';
 
 export default function PromiseTracker() {
   const [items, setItems] = useLocalStorage<PromiseT[]>('promises', seedPromises);
@@ -66,12 +67,9 @@ export default function PromiseTracker() {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <div className="flex items-center gap-2">
-        <Heart className="w-5 h-5 module-family" />
-        <h1 className="text-xl font-bold">Promise Tracker</h1>
-      </div>
-      <p className="text-sm text-muted-foreground">Keep your word. Build trust.</p>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="promises" title="Promise Tracker" subtitle="💛 Keep your word · build trust" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       {!adding ? (
         <Button onClick={() => setAdding(true)} variant="outline" className="w-full">
@@ -124,6 +122,7 @@ export default function PromiseTracker() {
             </motion.div>
           ))}
         </AnimatePresence>
+      </div>
       </div>
     </div>
   );
