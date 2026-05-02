@@ -35,7 +35,7 @@ export function CompanionHero({
 }: CompanionHeroProps) {
   const { scene: themeScene } = useTheme();
 
-  const sceneKey: CompanionScene = scene ?? (module ? pickScene(module) : themeScene);
+  const sceneKey: CompanionScene = scene ?? (module ? pickScene(module) : themeScene.scene);
   const def = COMPANION_SCENES[sceneKey];
 
   return (
