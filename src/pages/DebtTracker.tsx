@@ -39,6 +39,7 @@ export default function DebtTracker() {
           </motion.div>
         ))}
       </div>
+      </div>
     </div>
   );
 }
