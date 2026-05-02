@@ -7,6 +7,7 @@ import { appointments, promises, familyContacts } from '@/data/demoData';
 import { useLifeEvents, upsertLifeEvent } from '@/lib/lifeEvents';
 import { format, addDays, startOfWeek, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
 import { enGB } from 'date-fns/locale';
+import { CompanionHero } from '@/components/CompanionHero';
 
 type ViewMode = 'month' | 'week';
 
@@ -63,11 +64,9 @@ export default function CalendarView() {
   const selectedDiary = selectedDate ? getDiaryForDate(selectedDate) : null;
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <div className="flex items-center gap-2">
-        <CalIcon className="w-5 h-5 module-health" />
-        <h1 className="text-xl font-bold">Calendar & Diary</h1>
-      </div>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="calendar" title="Calendar & Diary" subtitle="📅 Seasons · time mapped" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       {/* Controls */}
       <div className="flex items-center justify-between">
@@ -184,6 +183,7 @@ export default function CalendarView() {
           )}
         </motion.div>
       )}
+      </div>
     </div>
   );
 }
