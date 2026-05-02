@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { upsertLifeEvent } from '@/lib/lifeEvents';
 import { toast } from '@/hooks/use-toast';
+import { CompanionHero } from '@/components/CompanionHero';
 
 type ReadingSource = 'Bible verse' | 'AA Big Book' | 'Just For Today';
 type Channel = 'CSD' | "Who's Funny Anyway" | "Jesus I'm Learning" | 'TTM' | 'Health Transformation';
@@ -118,14 +119,9 @@ export default function ContentEngine() {
   };
 
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4 pb-24">
-      <div className="flex items-center gap-2">
-        <Sparkles className="w-5 h-5 module-content" />
-        <div>
-          <h1 className="text-xl font-bold leading-tight">CSD — Choosing Sobriety Daily</h1>
-          <p className="text-xs text-muted-foreground">Morning reading → channel post → discipline done</p>
-        </div>
-      </div>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="content" title="CSD — Choosing Sobriety Daily" subtitle="🌊 Morning reading · channel post · discipline done" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       {/* Step 1: source + reading */}
       <motion.div layout className="bg-card rounded-xl border p-4 space-y-3">
@@ -250,6 +246,7 @@ export default function ContentEngine() {
             <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{log.post.slice(0, 140)}</p>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
