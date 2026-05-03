@@ -68,7 +68,7 @@ export default function PromiseTracker() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="promises" title="Promise Tracker" subtitle="💛 Keep your word · build trust" className="mb-4" />
+      <CompanionHero module="promises" title="Promise Tracker" subtitle="🐾 Keep your word · build trust" className="mb-4" />
       <div className="px-4 space-y-4">
 
       {!adding ? (

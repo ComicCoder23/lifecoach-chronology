@@ -120,7 +120,7 @@ export default function ContentEngine() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="content" title="CSD — Choosing Sobriety Daily" subtitle="🌊 Morning reading · channel post · discipline done" className="mb-4" />
+      <CompanionHero module="content" title="CSD — Choosing Sobriety Daily" subtitle="🐩 Morning reading · channel post · discipline done" className="mb-4" />
       <div className="px-4 space-y-4">
 
       {/* Step 1: source + reading */}

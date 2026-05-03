@@ -7,7 +7,7 @@ import { CompanionHero } from '@/components/CompanionHero';
 export default function LifeAdmin() {
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="admin" title="Life Admin" subtitle="🗂️ Appointments · paperwork · next moves" className="mb-4" />
+      <CompanionHero module="admin" title="Life Admin" subtitle="🐶 Appointments · paperwork · next moves" className="mb-4" />
       <div className="px-4 space-y-4">
 
       <h2 className="text-sm font-semibold text-muted-foreground">Appointments</h2>

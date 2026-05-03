@@ -65,7 +65,7 @@ export default function CalendarView() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="calendar" title="Calendar & Diary" subtitle="📅 Seasons · time mapped" className="mb-4" />
+      <CompanionHero module="calendar" title="Calendar & Diary" subtitle="🐾 Seasons · walks · plans" className="mb-4" />
       <div className="px-4 space-y-4">
 
       {/* Controls */}

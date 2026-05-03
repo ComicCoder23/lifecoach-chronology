@@ -52,7 +52,7 @@ export default function QuickCapture() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="capture" title="Quick Capture" subtitle="🌌 Open sky · land the thought" className="mb-4" />
+      <CompanionHero module="capture" title="Quick Capture" subtitle="🐶 Quick capture · land the thought" className="mb-4" />
       <div className="px-4 space-y-4">
 
       <div className="flex gap-2">

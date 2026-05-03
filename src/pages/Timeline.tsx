@@ -10,7 +10,7 @@ export default function Timeline() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="timeline" title="Life Timeline" subtitle="🕰️ Unified chronology of everything" className="mb-4" />
+      <CompanionHero module="timeline" title="Life Timeline" subtitle="🐾 Pawprints across the timeline" className="mb-4" />
       <div className="px-4 space-y-3">
         {sorted.map((event, i) => (
           <motion.div

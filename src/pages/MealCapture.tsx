@@ -57,7 +57,7 @@ export default function MealCapture() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="meals" title="Meals & SW Coach" subtitle="🌿 Slimming World · daily fuel" className="mb-4" />
+      <CompanionHero module="meals" title="Meals & SW Coach" subtitle="🐾 Slimming World · daily fuel" className="mb-4" />
       <div className="px-4 space-y-4">
 
       <Button onClick={() => setAdding(!adding)} className="w-full bg-momentum hover:bg-momentum/90 text-primary-foreground">
