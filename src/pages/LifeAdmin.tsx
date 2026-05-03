@@ -2,14 +2,13 @@ import { motion } from 'framer-motion';
 import { FileText } from 'lucide-react';
 import { ModuleBadge } from '@/components/ModuleBadge';
 import { appointments } from '@/data/demoData';
+import { CompanionHero } from '@/components/CompanionHero';
 
 export default function LifeAdmin() {
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
-      <div className="flex items-center gap-2">
-        <FileText className="w-5 h-5" />
-        <h1 className="text-xl font-bold">Life Admin</h1>
-      </div>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="admin" title="Life Admin" subtitle="🗂️ Appointments · paperwork · next moves" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       <h2 className="text-sm font-semibold text-muted-foreground">Appointments</h2>
       <div className="space-y-2">
