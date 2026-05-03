@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Mail, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CompanionHero } from '@/components/CompanionHero';
 
 const demoMail = [
   { id: '1', title: 'GP Letter — Fatigue Assessment', state: 'Needs action' as const, deadline: '2026-04-20', evidence: true },
