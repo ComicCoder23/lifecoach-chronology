@@ -146,6 +146,67 @@ export const pickScene = (module: ModuleScene, now = new Date()): CompanionScene
   }
 };
 
+// === Module → DOG hero (one unique characterful breed per page) ===
+export const pickDog = (module: ModuleScene, now = new Date()): DogScene => {
+  const h = now.getHours();
+  switch (module) {
+    case 'dashboard':
+      if (h < 10) return 'dogGolden';
+      if (h < 17) return 'dogCorgi';
+      if (h < 21) return 'dogSpaniel';
+      return 'dogResting';
+    case 'dashboard-evening': return 'dogResting';
+    case 'rescue':       return 'dogRescue';
+    case 'scrapbook':    return 'dogPuppy';
+    case 'health':       return 'dogBoxer';
+    case 'adp':          return 'dogShepherd';
+    case 'family':       return 'dogLab';
+    case 'launch':       return 'dogPointer';
+    case 'disciplines':  return 'dogCollie';
+    case 'content':      return 'dogPoodle';
+    case 'calendar':     return 'dogBeagle';
+    case 'promises':     return 'dogStaffie';
+    case 'debt':         return 'dogBulldog';
+    case 'meals':        return 'dogDachshund';
+    case 'capture':      return 'dogTerrier';
+    case 'mail':         return 'dogWestie';
+    case 'admin':        return 'dogPug';
+    case 'timeline':     return 'dogHusky';
+    default:             return 'dogDalmatian';
+  }
+};
+
+// === Route → backdrop landscape (full-page faded behind everything) ===
+export const pickBackdropForPath = (path: string, now = new Date()): CompanionScene => {
+  const p = path.replace(/\/+$/, '') || '/';
+  const map: Record<string, ModuleScene> = {
+    '/': 'dashboard',
+    '/launch': 'launch',
+    '/disciplines': 'disciplines',
+    '/timeline': 'timeline',
+    '/capture': 'capture',
+    '/calendar': 'calendar',
+    '/evidence': 'adp',
+    '/adp-vault': 'adp',
+    '/promises': 'promises',
+    '/family': 'family',
+    '/health': 'health',
+    '/meals': 'meals',
+    '/debt': 'debt',
+    '/mail': 'mail',
+    '/admin': 'admin',
+    '/scrapbook': 'scrapbook',
+    '/weekly': 'rescue',
+    '/flow': 'dashboard',
+    '/content': 'content',
+    '/sources': 'admin',
+    '/rescue': 'rescue',
+    '/integrations': 'admin',
+    '/more': 'dashboard',
+  };
+  return pickScene(map[p] ?? 'dashboard', now);
+};
+
 const STORAGE_KEY = 'soj.themeMode';
 
 export const getStoredTheme = (): ThemeMode => {
