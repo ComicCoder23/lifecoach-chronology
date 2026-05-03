@@ -28,7 +28,7 @@ export function CompanionHero({
   subtitle,
   children,
   className = '',
-  imageOpacity = 0.6,
+  imageOpacity = 0.35,
   rounded = true,
   priority = false,
   minHeight = 160,
