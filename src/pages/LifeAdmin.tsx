@@ -29,6 +29,7 @@ export default function LifeAdmin() {
           </motion.div>
         ))}
       </div>
+      </div>
     </div>
   );
 }
