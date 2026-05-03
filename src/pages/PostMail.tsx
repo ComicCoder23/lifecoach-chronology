@@ -17,11 +17,9 @@ const stateStyle = (s: string) => {
 
 export default function PostMail() {
   return (
-    <div className="p-4 max-w-lg mx-auto space-y-4">
-      <div className="flex items-center gap-2">
-        <Mail className="w-5 h-5 module-mail" />
-        <h1 className="text-xl font-bold">Post & Mail</h1>
-      </div>
+    <div className="max-w-lg mx-auto pb-24">
+      <CompanionHero module="mail" title="Post & Mail" subtitle="✉️ Letters · evidence · action" className="mb-4" />
+      <div className="px-4 space-y-4">
 
       <Button className="w-full bg-mail hover:bg-mail/90 text-primary-foreground">
         <Camera className="w-4 h-4 mr-2" /> Capture New Post
