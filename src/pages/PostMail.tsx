@@ -45,6 +45,7 @@ export default function PostMail() {
           </motion.div>
         ))}
       </div>
+      </div>
     </div>
   );
 }
