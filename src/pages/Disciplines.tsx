@@ -57,7 +57,7 @@ export default function Disciplines() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="disciplines" title="Disciplines" subtitle="🌅 Daily structure · steady wins" className="mb-4" />
+      <CompanionHero module="disciplines" title="Disciplines" subtitle="🐕‍🦺 Daily structure · steady wins" className="mb-4" />
       <div className="px-4 space-y-4">
 
       {timeBlocks.map(block => {

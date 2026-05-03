@@ -1,27 +1,41 @@
-// Companion image library — landscapes via picsum.photos (reliable seeded source)
-// and warm gradient "dog" scenes for characterful, never-broken visuals.
+// Companion image library — landscapes + dog photos via picsum.photos (reliable, seeded).
+// Every page gets BOTH: a faded landscape backdrop AND a unique characterful dog hero.
 
-const pic = (seed: string) => `https://picsum.photos/seed/${seed}/1200/600`;
+const pic = (seed: string, w = 1200, h = 600) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
-// A scene is either a real image URL, or a CSS gradient + emoji (for dogs).
 export type SceneDef =
   | { kind: 'image'; src: string }
   | { kind: 'gradient'; gradient: string; emoji: string };
 
-const img = (seed: string): SceneDef => ({ kind: 'image', src: pic(seed) });
-const dog = (gradient: string, emoji: string): SceneDef => ({ kind: 'gradient', gradient, emoji });
+const img = (seed: string, w?: number, h?: number): SceneDef => ({ kind: 'image', src: pic(seed, w, h) });
+const dogImg = (seed: string): SceneDef => ({ kind: 'image', src: pic(`dog-${seed}`, 1000, 500) });
 
 export const COMPANION_SCENES = {
-  // Dogs — warm gradients with character emoji (always visible, never broken)
-  dogGolden: dog('linear-gradient(135deg, hsl(38 90% 70%), hsl(24 85% 55%))', '🐕'),
-  dogCorgi: dog('linear-gradient(135deg, hsl(32 90% 75%), hsl(18 80% 58%))', '🐶'),
-  dogCollie: dog('linear-gradient(135deg, hsl(28 70% 35%), hsl(38 80% 60%))', '🐕‍🦺'),
-  dogSpaniel: dog('linear-gradient(135deg, hsl(36 85% 72%), hsl(20 75% 55%))', '🐶'),
-  dogPug: dog('linear-gradient(135deg, hsl(40 80% 75%), hsl(28 70% 55%))', '🐕'),
-  dogSheepdog: dog('linear-gradient(135deg, hsl(220 15% 35%), hsl(38 60% 70%))', '🐕‍🦺'),
-  dogResting: dog('linear-gradient(135deg, hsl(20 70% 45%), hsl(8 65% 30%))', '🐶'),
+  // === Dog heroes — unique seeded picsum, one per page ===
+  dogGolden: dogImg('golden-retriever'),
+  dogCorgi: dogImg('corgi-grin'),
+  dogCollie: dogImg('border-collie'),
+  dogSpaniel: dogImg('spaniel-soft'),
+  dogPug: dogImg('pug-cheeky'),
+  dogSheepdog: dogImg('sheepdog-rough'),
+  dogResting: dogImg('snoozing-hound'),
+  dogDalmatian: dogImg('dalmatian-spots'),
+  dogLab: dogImg('chocolate-lab'),
+  dogTerrier: dogImg('scruffy-terrier'),
+  dogHusky: dogImg('husky-eyes'),
+  dogPuppy: dogImg('tiny-puppy'),
+  dogBeagle: dogImg('beagle-ears'),
+  dogPoodle: dogImg('curly-poodle'),
+  dogBoxer: dogImg('boxer-grin'),
+  dogShepherd: dogImg('german-shepherd'),
+  dogDachshund: dogImg('long-dachshund'),
+  dogBulldog: dogImg('bulldog-cuddle'),
+  dogPointer: dogImg('pointer-stance'),
+  dogStaffie: dogImg('staffie-smile'),
+  dogWestie: dogImg('westie-fluff'),
+  dogRescue: dogImg('rescue-pup'),
 
-  // Landscapes — picsum seeded (deterministic, reliable)
+  // === Landscapes — for full-page faded backdrops ===
   sunrise: img('sunrise-morning'),
   goldenHour: img('golden-fields'),
   mountains: img('highland-peaks'),
@@ -44,6 +58,7 @@ export const COMPANION_SCENES = {
 } as const;
 
 export type CompanionScene = keyof typeof COMPANION_SCENES;
+export type DogScene = Extract<CompanionScene, `dog${string}`>;
 
 // === Theme modes (cycle on Dashboard) ===
 export type ThemeMode = 'morning' | 'goldenHour' | 'stormy' | 'night' | 'seasons';
@@ -129,6 +144,67 @@ export const pickScene = (module: ModuleScene, now = new Date()): CompanionScene
     case 'timeline': return 'chronology';
     default: return 'sunrise';
   }
+};
+
+// === Module → DOG hero (one unique characterful breed per page) ===
+export const pickDog = (module: ModuleScene, now = new Date()): DogScene => {
+  const h = now.getHours();
+  switch (module) {
+    case 'dashboard':
+      if (h < 10) return 'dogGolden';
+      if (h < 17) return 'dogCorgi';
+      if (h < 21) return 'dogSpaniel';
+      return 'dogResting';
+    case 'dashboard-evening': return 'dogResting';
+    case 'rescue':       return 'dogRescue';
+    case 'scrapbook':    return 'dogPuppy';
+    case 'health':       return 'dogBoxer';
+    case 'adp':          return 'dogShepherd';
+    case 'family':       return 'dogLab';
+    case 'launch':       return 'dogPointer';
+    case 'disciplines':  return 'dogCollie';
+    case 'content':      return 'dogPoodle';
+    case 'calendar':     return 'dogBeagle';
+    case 'promises':     return 'dogStaffie';
+    case 'debt':         return 'dogBulldog';
+    case 'meals':        return 'dogDachshund';
+    case 'capture':      return 'dogTerrier';
+    case 'mail':         return 'dogWestie';
+    case 'admin':        return 'dogPug';
+    case 'timeline':     return 'dogHusky';
+    default:             return 'dogDalmatian';
+  }
+};
+
+// === Route → backdrop landscape (full-page faded behind everything) ===
+export const pickBackdropForPath = (path: string, now = new Date()): CompanionScene => {
+  const p = path.replace(/\/+$/, '') || '/';
+  const map: Record<string, ModuleScene> = {
+    '/': 'dashboard',
+    '/launch': 'launch',
+    '/disciplines': 'disciplines',
+    '/timeline': 'timeline',
+    '/capture': 'capture',
+    '/calendar': 'calendar',
+    '/evidence': 'adp',
+    '/adp-vault': 'adp',
+    '/promises': 'promises',
+    '/family': 'family',
+    '/health': 'health',
+    '/meals': 'meals',
+    '/debt': 'debt',
+    '/mail': 'mail',
+    '/admin': 'admin',
+    '/scrapbook': 'scrapbook',
+    '/weekly': 'rescue',
+    '/flow': 'dashboard',
+    '/content': 'content',
+    '/sources': 'admin',
+    '/rescue': 'rescue',
+    '/integrations': 'admin',
+    '/more': 'dashboard',
+  };
+  return pickScene(map[p] ?? 'dashboard', now);
 };
 
 const STORAGE_KEY = 'soj.themeMode';

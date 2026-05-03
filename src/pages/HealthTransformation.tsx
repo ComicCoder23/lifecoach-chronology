@@ -73,7 +73,7 @@ export default function HealthTransformation() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="health" title="Health Transformation" subtitle="🏔️ Steady journey · stronger habits" className="px-5 pt-2 pb-6 mb-5">
+      <CompanionHero module="health" title="Health Transformation" subtitle="🐾 Steady journey · stronger pack" className="px-5 pt-2 pb-6 mb-5">
         <div className="px-5 mt-4 bg-card/80 backdrop-blur-sm rounded-2xl border p-4">
           <div className="flex items-end justify-between gap-3 mb-3">
             <div>

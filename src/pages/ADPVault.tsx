@@ -83,7 +83,7 @@ export default function ADPVault() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="adp" title="ADP Evidence Vault" subtitle="🛡️ Daily living · export-ready" className="mb-4" />
+      <CompanionHero module="adp" title="ADP Evidence Vault" subtitle="🐕‍🦺 Loyal evidence · daily living" className="mb-4" />
       <div className="px-4 space-y-4">
 
       <div className="grid grid-cols-3 gap-3">

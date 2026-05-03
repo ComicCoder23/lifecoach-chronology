@@ -8,7 +8,7 @@ export default function DebtTracker() {
 
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="debt" title="Debt & Credit" subtitle="🌊 Climbing the ladder · steady" className="mb-4" />
+      <CompanionHero module="debt" title="Debt & Credit" subtitle="🐶 Steady paws · climbing the ladder" className="mb-4" />
       <div className="px-4 space-y-4">
       <p className="text-sm text-muted-foreground">Climbing the ladder, not drowning in shame.</p>
 

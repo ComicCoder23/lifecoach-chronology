@@ -18,7 +18,7 @@ const stateStyle = (s: string) => {
 export default function PostMail() {
   return (
     <div className="max-w-lg mx-auto pb-24">
-      <CompanionHero module="mail" title="Post & Mail" subtitle="✉️ Letters · evidence · action" className="mb-4" />
+      <CompanionHero module="mail" title="Post & Mail" subtitle="🐕 Postie pup · letters · action" className="mb-4" />
       <div className="px-4 space-y-4">
 
       <Button className="w-full bg-mail hover:bg-mail/90 text-primary-foreground">
