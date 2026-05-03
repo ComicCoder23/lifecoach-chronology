@@ -28,6 +28,7 @@ export const COMPANION_SCENES = {
   loch: img('still-loch'),
   coast: img('sea-cliffs'),
   forest: img('misty-forest'),
+  woodland: img('woodland-path'),
   autumn: img('autumn-canopy'),
   moorland: img('open-moor'),
   storm: img('stormy-sky'),
@@ -37,6 +38,9 @@ export const COMPANION_SCENES = {
   evening: img('dusk-sky'),
   stone: img('stone-wall'),
   meadow: img('green-meadow'),
+  letters: img('quiet-desk'),
+  archive: img('paper-archive'),
+  chronology: img('long-horizon'),
 } as const;
 
 export type CompanionScene = keyof typeof COMPANION_SCENES;
