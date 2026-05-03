@@ -28,6 +28,7 @@ export const COMPANION_SCENES = {
   loch: img('still-loch'),
   coast: img('sea-cliffs'),
   forest: img('misty-forest'),
+  woodland: img('woodland-path'),
   autumn: img('autumn-canopy'),
   moorland: img('open-moor'),
   storm: img('stormy-sky'),
@@ -37,6 +38,9 @@ export const COMPANION_SCENES = {
   evening: img('dusk-sky'),
   stone: img('stone-wall'),
   meadow: img('green-meadow'),
+  letters: img('quiet-desk'),
+  archive: img('paper-archive'),
+  chronology: img('long-horizon'),
 } as const;
 
 export type CompanionScene = keyof typeof COMPANION_SCENES;
@@ -88,7 +92,8 @@ export const THEME_MODES: Record<ThemeMode, {
 export type ModuleScene =
   | 'dashboard' | 'dashboard-evening' | 'rescue' | 'scrapbook'
   | 'health' | 'adp' | 'family' | 'launch' | 'disciplines'
-  | 'content' | 'calendar' | 'promises' | 'debt' | 'meals' | 'capture';
+  | 'content' | 'calendar' | 'promises' | 'debt' | 'meals' | 'capture'
+  | 'mail' | 'admin' | 'timeline';
 
 const seasonForMonth = (m: number): CompanionScene => {
   if (m <= 1 || m === 11) return 'mountains';   // winter
@@ -102,23 +107,26 @@ export const pickScene = (module: ModuleScene, now = new Date()): CompanionScene
   switch (module) {
     case 'dashboard':
       if (h < 10) return 'sunrise';
-      if (h < 17) return 'dogGolden';
-      if (h < 21) return 'goldenHour';
-      return 'dogResting';
-    case 'dashboard-evening': return 'dogResting';
+      if (h < 17) return 'goldenHour';
+      if (h < 21) return 'evening';
+      return 'starfield';
+    case 'dashboard-evening': return 'evening';
     case 'rescue': return 'loch';
     case 'scrapbook': return 'countryPath';
     case 'health': return 'mountains';
     case 'adp': return 'stone';
-    case 'family': return 'goldenHour';
+    case 'family': return 'meadow';
     case 'launch': return 'sunrise';
     case 'disciplines': return 'sunrise';
     case 'content': return 'coast';
     case 'calendar': return seasonForMonth(now.getMonth());
-    case 'promises': return 'goldenHour';
+    case 'promises': return 'woodland';
     case 'debt': return 'loch';
     case 'meals': return 'meadow';
     case 'capture': return 'evening';
+    case 'mail': return 'letters';
+    case 'admin': return 'archive';
+    case 'timeline': return 'chronology';
     default: return 'sunrise';
   }
 };

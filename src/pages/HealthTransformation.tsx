@@ -26,8 +26,8 @@ interface HealthTransformationState {
 }
 
 const initialState: HealthTransformationState = {
-  currentWeight: 31,
-  goalWeight: 18,
+  currentWeight: 23,
+  goalWeight: 16,
   slimmingWorldMode: true,
   weighIns: [],
   gymVisits: [],
